@@ -1,0 +1,42 @@
+'use strict'
+
+module.exports = [
+    {
+        idPa: 'A221202000289',
+        tanggalTerbitPa: '2023-11-07',
+        customer: 'BAPPEDA',
+        lokasi: '(Bappeda) Sungai Mempura, Kec. Mempura, Kabupaten Siak, Riau 28773',
+        layanan: 'METRONET',
+        bandwidth: 230,
+        fotoBriefingK3: null,
+        panjangTarikan: 270,
+        progresTarikan: 100,
+        jumlahJb: 6,
+        tracingCore: 100,
+        testcom: 0,
+        fileTestcom: null,
+        baiUser: 0,
+        fileBaiBakl: null,
+        tanggalBai: null,
+        kendala: null,
+    },
+    {
+        idPa: ,
+        tanggalTerbitPa: ,
+        customer: ,
+        lokasi: ,
+        layanan: ,
+        bandwidth: ,
+        fotoBriefingK3: ,
+        panjangTarikan: ,
+        progresTarikan: ,
+        jumlahJb: ,
+        tracingCore: ,
+        testcom: ,
+        fileTestcom: ,
+        baiUser: ,
+        fileBaiBakl: ,
+        tanggalBai: ,
+        kendala: ,
+    }
+]

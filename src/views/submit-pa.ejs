@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<!-- <link rel="icon" href="../images/favicon.ico"> -->
+
+		<title>Anonim -Submit PA</title>
+
+		<!-- Vendors Style-->
+		<link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
+
+		<!-- Style-->
+		<link rel="stylesheet" href="/sunny-admin/css/style.css" />
+		<link rel="stylesheet" href="/sunny-admin/css/skin_color.css" />
+
+		<link rel="stylesheet" href="/toastr/toastr.min.css" />
+	</head>
+
+	<body class="hold-transition light-skin sidebar-mini theme-primary">
+		<div class="wrapper">
+			<header class="main-header">
+				<nav class="navbar navbar-static-top pl-30">
+					<!-- Sidebar toggle button-->
+					<div>
+						<ul class="nav">
+							<li class="btn-group nav-item">
+								<a href="#" class="waves-effect waves-light nav-link rounded svg-bt-icon" data-toggle="push-menu" role="button">
+									<i class="nav-link-icon mdi mdi-menu"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="navbar-custom-menu r-side">
+						<ul class="nav navbar-nav">
+							<li class="dropdown user user-menu">
+								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User">
+									<img src="/images/default-profile-picture.png" />
+								</a>
+								<ul class="dropdown-menu animated flipInX">
+									<li class="user-body">
+										<a class="dropdown-item" href="<%= `${baseUrl}/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+
+			<aside class="main-sidebar">
+				<!-- sidebar-->
+				<section class="sidebar">
+					<div class="user-profile">
+						<div class="ulogo">
+							<a href="dashboard.html">
+								<!-- logo for regular state and mobile devices -->
+								<div class="d-flex align-items-center justify-content-center">
+									<!-- <img src="../images/logo-dark.png" alt=""> -->
+									<h3><b>Anonim</b> Test</h3>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<!-- sidebar menu-->
+					<ul class="sidebar-menu" data-widget="tree">
+						<li>
+							<a href="<%= `${baseUrl}` %>">
+								<i data-feather="pie-chart"></i>
+								<span>Dashboard</span>
+							</a>
+						</li>
+
+						<li class="header nav-small-cap">Main Menu</li>
+
+						<li class="active">
+							<a href="<%= `${baseUrl}/submit-pa` %>">
+								<i data-feather="plus"></i>
+								<span>Submit PA</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/update-pa` %>">
+								<i data-feather="edit"></i>
+								<span>Update PA</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/monitoring-pa` %>">
+								<i data-feather="database"></i>
+								<span>Monitoring PA</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/aging` %>">
+								<i data-feather="pie-chart"></i>
+								<span>Aging</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}` %>">
+								<i data-feather="user-plus"></i>
+								<span>Daftar Akun Mitra</span>
+							</a>
+						</li>
+					</ul>
+				</section>
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div class="container-full">
+					<!-- Content Header (Page header) -->
+					<div class="content-header">
+						<div class="d-flex align-items-center">
+							<div class="mr-auto">
+								<h3 class="page-title">Anonim App</h3>
+								<div class="d-inline-block align-items-center">
+									<nav>
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item">
+												<a href="<%= baseUrl %>"><i class="mdi mdi-home-outline"></i></a>
+											</li>
+											<li class="breadcrumb-item active" aria-current="page">Submit PA</li>
+										</ol>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Main content -->
+					<section class="content">
+						<div class="row">
+							<div class="col-12">
+								<div class="box">
+									<div class="box-header with-border">
+										<h3 class="box-title">Submit PA</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2">ID PA</label>
+											<div class="col-lg-4">
+												<input type="text" id="id-pa-input" class="form-control" placeholder="ID PA" />
+												<small id="id-pa-input-error-message" class="text-danger"></small>
+											</div>
+
+											<label class="col-form-label col-lg-2">Tanggal Terbit PA</label>
+											<div class="col-lg-4">
+												<input type="date" id="tanggal-terbit-pa-input" class="form-control" placeholder="Tanggal Terbit PA" />
+												<small id="tanggal-terbit-pa-input-error-message" class="text-danger"></small>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2">Customer</label>
+											<div class="col-lg-4">
+												<input type="text" id="customer-input" class="form-control" placeholder="Customer" />
+												<small id="customer-input-error-message" class="text-danger"></small>
+											</div>
+
+											<label class="col-form-label col-lg-2">Lokasi</label>
+											<div class="col-lg-4">
+												<input type="text" id="lokasi-input" class="form-control" placeholder="Lokasi" />
+												<small id="lokasi-input-error-message" class="text-danger"></small>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2">Layanan</label>
+											<div class="col-lg-4">
+												<input type="text" id="layanan-input" class="form-control" placeholder="Layanan" />
+												<small id="layanan-input-error-message" class="text-danger"></small>
+											</div>
+
+											<label class="col-form-label col-lg-2">Bandwith</label>
+											<div class="col-lg-4">
+												<input type="number" id="bandwidth-input" class="form-control" placeholder="Bandwith" />
+												<small id="bandwidth-input-error-message" class="text-danger"></small>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2">Mitra</label>
+											<div class="col-lg-4">
+												<!-- <input type="text" id="mitra-input" class="form-control" placeholder="Mitra" /> -->
+												<select class="form-control" id="id-mitra-input">
+													<% mitra.forEach(mitra => { %>
+													<option value="<%= mitra.userId %>"><%= mitra.username %></option>
+													<% }) %>
+												</select>
+												<small id="mitra-input-error-message" class="text-danger"></small>
+											</div>
+
+											<label class="col-form-label col-lg-2">Panjang Tarikan</label>
+											<div class="col-lg-4">
+												<input type="number" id="panjang-tarikan-input" class="form-control" placeholder="Panjang Tarikan" />
+												<small id="panjang-tarikan-input-error-message" class="text-danger"></small>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<label class="col-form-label col-lg-2">Jumlah JB</label>
+											<div class="col-lg-4">
+												<input type="number" id="jumlah-jb-input" class="form-control" placeholder="Jumlah JB" />
+												<small id="jumlah-jb-input-error-message" class="text-danger"></small>
+											</div>
+										</div>
+
+										<div class="pull-right mt-4">
+											<a type="button" id="submit-button" class="btn btn-rounded btn-primary mb-5">Submit</a>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								</div>
+								<!-- /.box -->
+							</div>
+
+							<!-- /.col -->
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<div class="box">
+									<div class="box-header with-border">
+										<h3 class="box-title">Data List PA</h3>
+									</div>
+									<!-- /.box-header -->
+									<div class="box-body">
+										<div class="table-responsive">
+											<table id="example1" class="table table-bordered table-striped" style="width: 100%">
+												<thead>
+													<tr>
+														<th>No</th>
+														<th>ID PA</th>
+														<th>Tanggal Terbit PA</th>
+														<th>Customer</th>
+														<th>Lokasi</th>
+														<th>Layanan</th>
+														<th>Bandwith</th>
+														<th>Mitra</th>
+														<th>Panjang Tarikan</th>
+														<th>Jumlah JB</th>
+													</tr>
+												</thead>
+												<tbody id="pa-table-body">
+													<% pa.forEach((pa, index) => { %>
+													<tr>
+														<td><%= index + 1 %></td>
+														<td><%= pa.idPa %></td>
+														<td><%= `${new Date(pa.tanggalTerbitPa).getDate()}-${new Date(pa.tanggalTerbitPa).getMonth() + 1}-${new Date(pa.tanggalTerbitPa).getFullYear()}` %></td>
+														<td><%= pa.customer %></td>
+														<td><%= pa.lokasi %></td>
+														<td><%= pa.layanan %></td>
+														<td><%= pa.bandwidth %></td>
+														<td><%= pa.mitra %></td>
+														<td><%= pa.panjangTarikan %></td>
+														<td><%= pa.jumlahJb %></td>
+													</tr>
+													<% }) %>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								</div>
+								<!-- /.box -->
+							</div>
+
+							<!-- /.col -->
+						</div>
+
+						<!-- /.row -->
+					</section>
+					<!-- /.content -->
+				</div>
+			</div>
+			<!-- /.content-wrapper -->
+		</div>
+		<!-- ./wrapper -->
+
+		<!-- Vendor JS -->
+		<script src="/sunny-admin/js/vendors.min.js"></script>
+		<script src="/sunny-admin/assets/icons/feather-icons/feather.min.js"></script>
+		<script src="/sunny-admin/assets/vendor_components/datatable/datatables.min.js"></script>
+		<script src="/sunny-admin/js/pages/data-table.js"></script>
+
+		<!-- Sunny Admin App -->
+		<script src="/sunny-admin/js/template.js"></script>
+
+		<script src="/toastr/toastr.min.js"></script>
+
+		<script src="/axios/axios.min.js"></script>
+		<script src="/jquery/jquery.min.js"></script>
+
+		<script src="/javascript/main.js"></script>
+		<script src="/javascript/submit-pa.js"></script>
+	</body>
+</html>

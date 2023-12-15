@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<!-- <link rel="icon" href="../images/favicon.ico"> -->
+
+		<title>Dashboard - MAPIconPLN</title>
+
+		<!-- Vendors Style-->
+		<link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
+
+		<!-- Style-->
+		<link rel="stylesheet" href="/sunny-admin/css/style.css" />
+		<link rel="stylesheet" href="/sunny-admin/css/skin_color.css" />
+
+		<!-- <style>
+      i{
+        align-items: center;
+        text-align: center;
+      }
+    </style> -->
+	</head>
+
+	<body class="hold-transition light-skin sidebar-mini theme-primary">
+		<div class="wrapper">
+			<header class="main-header">
+				<nav class="navbar navbar-static-top pl-30">
+					<!-- Sidebar toggle button-->
+					<div>
+						<ul class="nav">
+							<li class="btn-group nav-item">
+								<a href="#" class="waves-effect waves-light nav-link rounded svg-bt-icon" data-toggle="push-menu" role="button">
+									<i class="nav-link-icon mdi mdi-menu"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="navbar-custom-menu r-side">
+						<ul class="nav navbar-nav">
+							<li class="dropdown user user-menu">
+								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User">
+									<img src="/images/default-profile-picture.png" alt="" />
+								</a>
+								<ul class="dropdown-menu animated flipInX">
+									<li class="user-body">
+										<a class="dropdown-item" href="<%= `${baseUrl}/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+
+			<!-- Left side column. contains the logo and sidebar -->
+			<aside class="main-sidebar">
+				<!-- sidebar-->
+				<section class="sidebar">
+					<div class="user-profile">
+						<div class="ulogo">
+							<a href="dashboard.html">
+								<!-- logo for regular state and mobile devices -->
+								<div class="d-flex align-items-center justify-content-center">
+									<!-- <img src="../images/logo-dark.png" alt=""> -->
+									<h3><b>Anonim</b> Test</h3>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<!-- sidebar menu-->
+					<ul class="sidebar-menu" data-widget="tree">
+						<li class="active">
+							<a href="<%= `${baseUrl}` %>">
+								<i data-feather="pie-chart"></i>
+								<span>Dashboard</span>
+							</a>
+						</li>
+
+						<li class="header nav-small-cap">Main Menu</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/update-pa` %>">
+								<i data-feather="edit"></i>
+								<span>Update PA</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/monitoring-pa` %>">
+								<i data-feather="database"></i>
+								<span>Monitoring PA</span>
+							</a>
+						</li>
+					</ul>
+				</section>
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div class="container-full">
+					<!-- Main content -->
+					<section class="content">
+						<div class="row">
+							<div class="col-6 col-lg-3 col-md-6">
+								<div class="card">
+									<div class="card-body px-3 py-4-5">
+										<div class="row">
+											<div class="col-md-4">
+												<i></i>
+											</div>
+											<div class="col-md-8">
+												<h6 class="text-muted font-semibold"><%= user.username %></h6>
+												<h6 class="font-extrabold mb-0"><%= totalPaDoneBai %> / <%= totalPa %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr />
+
+						<div class="row">
+							<!--Box progress!-->
+							<div class="col-6 col-lg-3 col-md-6">
+								<div class="card">
+									<div class="card-body px-3 py-4-5">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="stats-icon purple">
+													<i class="iconly-boldShow"></i>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<h6 class="text-muted font-semibold">Penarikan</h6>
+												<h6 class="font-extrabold mb-0"><%= totalPaDonePenarikan %> / <%= totalPa %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-6 col-lg-3 col-md-6">
+								<div class="card">
+									<div class="card-body px-3 py-4-5">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="stats-icon purple">
+													<i class="iconly-boldShow"></i>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<h6 class="text-muted font-semibold">Tracing Core</h6>
+												<h6 class="font-extrabold mb-0"><%= totalPaDoneTracingCore %> / <%= totalPa %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-6 col-lg-3 col-md-6">
+								<div class="card">
+									<div class="card-body px-3 py-4-5">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="stats-icon purple">
+													<i class="iconly-boldShow"></i>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<h6 class="text-muted font-semibold">Testcom</h6>
+												<h6 class="font-extrabold mb-0"><%= totalPaDoneTestcom %> / <%= totalPa %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-6 col-lg-3 col-md-6">
+								<div class="card">
+									<div class="card-body px-3 py-4-5">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="stats-icon purple">
+													<i class="iconly-boldShow"></i>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<h6 class="text-muted font-semibold">On Progres BAI</h6>
+												<h6 class="font-extrabold mb-0"><%= totalPaOnProgressBai %> / <%= totalPa %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-6 col-lg-3 col-md-6">
+								<div class="card">
+									<div class="card-body px-3 py-4-5">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="stats-icon purple">
+													<i class="iconly-boldShow"></i>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<h6 class="text-muted font-semibold">PA Done</h6>
+												<h6 class="font-extrabold mb-0"><%= totalPaDoneBai %> / <%= totalPa %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-6 col-lg-3 col-md-6">
+								<div class="card">
+									<div class="card-body px-3 py-4-5">
+										<div class="row">
+											<div class="col-md-4">
+												<div class="stats-icon purple">
+													<i class="iconly-boldShow"></i>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<h6 class="text-muted font-semibold">PA Kendala</h6>
+												<h6 class="font-extrabold mb-0"><%= totalPaKendala %> / <%= totalPa %></h6>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.col -->
+						</div>
+						<!-- /.row -->
+					</section>
+					<!-- /.content -->
+				</div>
+			</div>
+			<!-- /.content-wrapper -->
+		</div>
+		<!-- ./wrapper -->
+
+		<!-- Vendor JS -->
+		<script src="/sunny-admin/js/vendors.min.js"></script>
+		<script src="/sunny-admin/assets/icons/feather-icons/feather.min.js"></script>
+		<script src="/sunny-admin/assets/vendor_components/datatable/datatables.min.js"></script>
+		<script src="/sunny-admin/js/pages/data-table.js"></script>
+
+		<!-- Sunny Admin App -->
+		<script src="/sunny-admin/js/template.js"></script>
+	</body>
+</html>

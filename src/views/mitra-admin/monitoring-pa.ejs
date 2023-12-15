@@ -8,7 +8,7 @@
 		<meta name="author" content="" />
 		<!-- <link rel="icon" href="../images/favicon.ico"> -->
 
-		<title>Anonim -Submit PA</title>
+		<title>Monitoring PA - MAPIconPLN</title>
 
 		<!-- Vendors Style-->
 		<link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
@@ -59,7 +59,7 @@
 								<!-- logo for regular state and mobile devices -->
 								<div class="d-flex align-items-center justify-content-center">
 									<!-- <img src="../images/logo-dark.png" alt=""> -->
-									<h3><b>Anonim</b> Test</h3>
+									<h3><b>MAP</b>IconPLN</h3>
 								</div>
 							</a>
 						</div>
@@ -77,13 +77,6 @@
 						<li class="header nav-small-cap">Main Menu</li>
 
 						<li>
-							<a href="<%= `${baseUrl}/submit-pa` %>">
-								<i data-feather="plus"></i>
-								<span>Submit PA</span>
-							</a>
-						</li>
-
-						<li>
 							<a href="<%= `${baseUrl}/update-pa` %>">
 								<i data-feather="edit"></i>
 								<span>Update PA</span>
@@ -94,20 +87,6 @@
 							<a href="<%= `${baseUrl}/monitoring-pa` %>">
 								<i data-feather="database"></i>
 								<span>Monitoring PA</span>
-							</a>
-						</li>
-
-						<li>
-							<a href="<%= `${baseUrl}/aging` %>">
-								<i data-feather="pie-chart"></i>
-								<span>Aging</span>
-							</a>
-						</li>
-
-						<li>
-							<a href="<%= `${baseUrl}` %>">
-								<i data-feather="user-plus"></i>
-								<span>Daftar Akun Mitra</span>
 							</a>
 						</li>
 					</ul>
@@ -121,7 +100,7 @@
 					<div class="content-header">
 						<div class="d-flex align-items-center">
 							<div class="mr-auto">
-								<h3 class="page-title">Anonim App</h3>
+								<h3 class="page-title">MAPIconPLN</h3>
 								<div class="d-inline-block align-items-center">
 									<nav>
 										<ol class="breadcrumb">
@@ -142,7 +121,7 @@
 							<div class="col-12">
 								<div class="box">
 									<div class="box-header with-border">
-										<h3 class="box-title">Data List Monitoring PA</h3>
+										<h3 class="box-title">Daftar PA</h3>
 									</div>
 									<!-- /.box-header -->
 									<div class="box-body">
@@ -197,36 +176,36 @@
 													<% pa.forEach((pa, index) => { %>
 													<tr>
 														<td><%= index + 1 %></td>
-														<td><%= pa.idPa %></td>
-														<td><%= pa.tanggalTerbitPa %></td>
+														<td><%= pa.id_pa %></td>
+														<td><%= pa.tanggal_terbit_pa %></td>
 														<td><%= pa.customer %></td>
 														<td><%= pa.lokasi %></td>
 														<td><%= pa.layanan %></td>
 														<td><%= pa.bandwidth %></td>
 														<td>
-															<% if (pa.fotoBriefingK3 != null) { %>
+															<% if (pa.foto_briefing_k3 != null) { %>
 															<a href="<%= `${baseUrl}/uploaded-files/${pa.fotoBriefingK3}` %>" target="_blank">Lihat</a>
 															<% } %>
 														</td>
-														<td><%= pa.panjangTarikan %></td>
-														<td><%= pa.progresTarikan %></td>
-														<td><%= pa.jumlahJb %></td>
-														<td><%= pa.tracingCore %></td>
+														<td><%= pa.panjang_tarikan %></td>
+														<td><%= pa.progres_tarikan %></td>
+														<td><%= pa.jumlah_jb %></td>
+														<td><%= pa.tracing_core %></td>
 														<td><%= pa.testcom %></td>
 														<td>
-															<% if (pa.fileTestcom != null) { %>
+															<% if (pa.file_testcom != null) { %>
 															<a href="<%= `${baseUrl}/uploaded-files/${pa.fileTestcom}` %>" target="_blank">Lihat</a>
 															<% } %>
 														</td>
-														<td><%= pa.baiUser %></td>
+														<td><%= pa.bai_user %></td>
 														<td>
-															<% if (pa.fileBaiBakl != null) { %>
+															<% if (pa.file_bai_bakl != null) { %>
 															<a href="<%= `${baseUrl}/uploaded-files/${pa.fileBaiBakl}` %>" target="_blank">Lihat</a>
 															<% } %>
 														</td>
-														<td><%= pa.tanggalBai %></td>
+														<td><%= pa.tanggal_bai %></td>
 														<td><%= pa.kendala %></td>
-														<td>Aging</td>
+														<td><%= pa.aging %></td>
 													</tr>
 													<% }) %>
 												</tbody>
@@ -269,7 +248,7 @@
 				var table = $("#example1").DataTable({
 					paging: true,
 					lengthChange: true,
-					searching: false, // Disable global search bar for now
+					searching: true, // Disable global search bar for now
 					ordering: true,
 					info: true,
 					autoWidth: false,

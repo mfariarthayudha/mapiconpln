@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,7 +8,7 @@
 		<meta name="author" content="" />
 		<!-- <link rel="icon" href="../images/favicon.ico"> -->
 
-		<title>Dashboard - MAPIconPLN</title>
+		<title>Dashboard - MAP Icon PLN</title>
 
 		<!-- Vendors Style-->
 		<link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
@@ -43,12 +43,10 @@
 					<div class="navbar-custom-menu r-side">
 						<ul class="nav navbar-nav">
 							<li class="dropdown user user-menu">
-								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User">
-									<img src="/images/default-profile-picture.png" alt="" />
-								</a>
+								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User"> <img src="/images/default-profile-picture.png" /> <%= user.username %> </a>
 								<ul class="dropdown-menu animated flipInX">
 									<li class="user-body">
-										<a class="dropdown-item" href="<%= `${baseUrl}/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+										<a class="dropdown-item" href="<%= `${baseUrl}/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
 									</li>
 								</ul>
 							</li>
@@ -66,9 +64,9 @@
 							<a href="dashboard.html">
 								<!-- logo for regular state and mobile devices -->
 								<div class="d-flex align-items-center justify-content-center">
-									<!-- <img src="../images/logo-dark.png" alt=""> -->
-									<h3><b>Anonim</b> Test</h3>
+									<img src="/images/logo-map.png" class="w-100" />
 								</div>
+								<h5><b>MAP Icon PLN</b></h5>
 							</a>
 						</div>
 					</div>
@@ -76,7 +74,7 @@
 					<!-- sidebar menu-->
 					<ul class="sidebar-menu" data-widget="tree">
 						<li class="active">
-							<a href="<%= `${baseUrl}` %>">
+							<a href="<%= baseUrl %>">
 								<i data-feather="pie-chart"></i>
 								<span>Dashboard</span>
 							</a>
@@ -97,6 +95,13 @@
 								<span>Monitoring PA</span>
 							</a>
 						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/aging` %>">
+								<i data-feather="pie-chart"></i>
+								<span>Aging</span>
+							</a>
+						</li>
 					</ul>
 				</section>
 			</aside>
@@ -107,17 +112,15 @@
 					<!-- Main content -->
 					<section class="content">
 						<div class="row">
-							<div class="col-6 col-lg-3 col-md-6">
-								<div class="card">
-									<div class="card-body px-3 py-4-5">
-										<div class="row">
-											<div class="col-md-4">
-												<i></i>
-											</div>
-											<div class="col-md-8">
-												<h6 class="text-muted font-semibold"><%= user.username %></h6>
-												<h6 class="font-extrabold mb-0"><%= totalPaDoneBai %> / <%= totalPa %></h6>
-											</div>
+							<div class="col-xl-2 col-6">
+								<div class="box overflow-hidden pull-up hov-rs">
+									<div class="box-body text-center">
+										<div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+											<i class="text-primary mr-0 font-size-24 mdi mdi-account"></i>
+										</div>
+										<div>
+											<p class="text-mute mt-20 mb-0 font-size-16"><%= user.username %></p>
+											<h3 class="text-dark mb-0 font-weight-500"><%= totalPaDoneBai %>/<%= totalPa %></h3>
 										</div>
 									</div>
 								</div>
@@ -128,109 +131,81 @@
 
 						<div class="row">
 							<!--Box progress!-->
-							<div class="col-6 col-lg-3 col-md-6">
-								<div class="card">
-									<div class="card-body px-3 py-4-5">
-										<div class="row">
-											<div class="col-md-4">
-												<div class="stats-icon purple">
-													<i class="iconly-boldShow"></i>
-												</div>
-											</div>
-											<div class="col-md-8">
-												<h6 class="text-muted font-semibold">Penarikan</h6>
-												<h6 class="font-extrabold mb-0"><%= totalPaDonePenarikan %> / <%= totalPa %></h6>
-											</div>
+							<div class="col-xl-2 col-6">
+								<div class="box overflow-hidden pull-up hov-rs">
+									<div class="box-body text-center">
+										<div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+											<i class="text-primary mr-0 font-size-24 mdi mdi-ethernet-cable"></i>
+										</div>
+										<div>
+											<p class="text-mute mt-20 mb-0 font-size-16">Penarikan</p>
+											<h3 class="text-dark mb-0 font-weight-500"><%= totalPaDonePenarikan %>/<%= totalPa %></h3>
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<div class="col-6 col-lg-3 col-md-6">
-								<div class="card">
-									<div class="card-body px-3 py-4-5">
-										<div class="row">
-											<div class="col-md-4">
-												<div class="stats-icon purple">
-													<i class="iconly-boldShow"></i>
-												</div>
-											</div>
-											<div class="col-md-8">
-												<h6 class="text-muted font-semibold">Tracing Core</h6>
-												<h6 class="font-extrabold mb-0"><%= totalPaDoneTracingCore %> / <%= totalPa %></h6>
-											</div>
+							<div class="col-xl-2 col-6">
+								<div class="box overflow-hidden pull-up hov-rs">
+									<div class="box-body text-center">
+										<div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+											<i class="text-primary mr-0 font-size-24 mdi mdi-bullseye"></i>
+										</div>
+										<div>
+											<p class="text-mute mt-20 mb-0 font-size-16">Tracing Core</p>
+											<h3 class="text-dark mb-0 font-weight-500"><%= totalPaDoneTracingCore %>/<%= totalPa %></h3>
 										</div>
 									</div>
 								</div>
 							</div>
-
-							<div class="col-6 col-lg-3 col-md-6">
-								<div class="card">
-									<div class="card-body px-3 py-4-5">
-										<div class="row">
-											<div class="col-md-4">
-												<div class="stats-icon purple">
-													<i class="iconly-boldShow"></i>
-												</div>
-											</div>
-											<div class="col-md-8">
-												<h6 class="text-muted font-semibold">Testcom</h6>
-												<h6 class="font-extrabold mb-0"><%= totalPaDoneTestcom %> / <%= totalPa %></h6>
-											</div>
+							<div class="col-xl-2 col-6">
+								<div class="box overflow-hidden pull-up hov-rs">
+									<div class="box-body text-center">
+										<div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+											<i class="text-primary mr-0 font-size-24 mdi mdi-access-point"></i>
+										</div>
+										<div>
+											<p class="text-mute mt-20 mb-0 font-size-16">Testcom</p>
+											<h3 class="text-dark mb-0 font-weight-500"><%= totalPaDoneTestcom %>/<%= totalPa %></h3>
 										</div>
 									</div>
 								</div>
 							</div>
-
-							<div class="col-6 col-lg-3 col-md-6">
-								<div class="card">
-									<div class="card-body px-3 py-4-5">
-										<div class="row">
-											<div class="col-md-4">
-												<div class="stats-icon purple">
-													<i class="iconly-boldShow"></i>
-												</div>
-											</div>
-											<div class="col-md-8">
-												<h6 class="text-muted font-semibold">On Progres BAI</h6>
-												<h6 class="font-extrabold mb-0"><%= totalPaOnProgressBai %> / <%= totalPa %></h6>
-											</div>
+							<div class="col-xl-2 col-6">
+								<div class="box overflow-hidden pull-up hov-rs">
+									<div class="box-body text-center">
+										<div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+											<i class="text-primary mr-0 font-size-24 mdi mdi-content-paste"></i>
+										</div>
+										<div>
+											<p class="text-mute mt-20 mb-0 font-size-16">On Progress BAI</p>
+											<h3 class="text-dark mb-0 font-weight-500"><%= totalPaOnProgressBai %>/<%= totalPa %></h3>
 										</div>
 									</div>
 								</div>
 							</div>
-
-							<div class="col-6 col-lg-3 col-md-6">
-								<div class="card">
-									<div class="card-body px-3 py-4-5">
-										<div class="row">
-											<div class="col-md-4">
-												<div class="stats-icon purple">
-													<i class="iconly-boldShow"></i>
-												</div>
-											</div>
-											<div class="col-md-8">
-												<h6 class="text-muted font-semibold">PA Done</h6>
-												<h6 class="font-extrabold mb-0"><%= totalPaDoneBai %> / <%= totalPa %></h6>
-											</div>
+							<div class="col-xl-2 col-6">
+								<div class="box overflow-hidden pull-up hov-rs">
+									<div class="box-body text-center">
+										<div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+											<i class="text-primary mr-0 font-size-24 mdi mdi-checkbox-marked"></i>
+										</div>
+										<div>
+											<p class="text-mute mt-20 mb-0 font-size-16">PA Done</p>
+											<h3 class="text-dark mb-0 font-weight-500"><%= totalPaDoneBai %>/<%= totalPa %></h3>
 										</div>
 									</div>
 								</div>
 							</div>
-
-							<div class="col-6 col-lg-3 col-md-6">
-								<div class="card">
-									<div class="card-body px-3 py-4-5">
-										<div class="row">
-											<div class="col-md-4">
-												<div class="stats-icon purple">
-													<i class="iconly-boldShow"></i>
-												</div>
-											</div>
-											<div class="col-md-8">
-												<h6 class="text-muted font-semibold">PA Kendala</h6>
-												<h6 class="font-extrabold mb-0"><%= totalPaKendala %> / <%= totalPa %></h6>
-											</div>
+							<div class="col-xl-2 col-6">
+								<div class="box overflow-hidden pull-up hov-rs">
+									<div class="box-body text-center">
+										<div class="icon bg-primary-light rounded w-60 h-60 mx-auto">
+											<i class="text-primary mr-0 font-size-24 mdi mdi-exclamation"></i>
+										</div>
+										<div>
+											<p class="text-mute mt-20 mb-0 font-size-16">PA Kendala</p>
+											<h3 class="text-dark mb-0 font-weight-500"><%= totalPaKendala %>/<%= totalPa %></h3>
 										</div>
 									</div>
 								</div>
@@ -243,14 +218,25 @@
 				</div>
 			</div>
 			<!-- /.content-wrapper -->
+
+			<footer class="main-footer">
+				<div class="pull-right d-none d-sm-inline-block">
+					<ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+						<img class="p-2" src="/images/logo-pln.png" alt="Your Logo" style="max-height: 40px; /* adjust height as needed */" />
+					</ul>
+				</div>
+				&copy; 2023 MAP Icon PLN. All Rights Reserved.
+			</footer>
 		</div>
 		<!-- ./wrapper -->
 
-		<!-- Vendor JS -->
 		<script src="/sunny-admin/js/vendors.min.js"></script>
 		<script src="/sunny-admin/assets/icons/feather-icons/feather.min.js"></script>
 		<script src="/sunny-admin/assets/vendor_components/datatable/datatables.min.js"></script>
-		<script src="/sunny-admin/js/pages/data-table.js"></script>
+		<script src="/sunny-admin/assets/vendor_components/chart.js-master/Chart.min.js"></script>
+		<script src="/sunny-admin/assets/vendor_components/chartist-js-develop/chartist.js"></script>
+		<script src="/sunny-admin/js/pages/widget-charts2.js"></script>
+		<script src="/sunny-admin/js/pages/widget-chartist.js"></script>
 
 		<!-- Sunny Admin App -->
 		<script src="/sunny-admin/js/template.js"></script>

@@ -13,10 +13,10 @@ const router = express.Router()
 
 router.use((request, response, next) => {
 	request.session.user = {
-		userId: "f5598cb3-2ba6-45b1-854f-f1bc881dfbe6",
-		username: "acm_aktivasi",
-		role: "mitra-admin",
-		mitraId: "739dcf40-1490-4be9-9fdb-1740622abaf0",
+		userId: "f2839094-b7a1-4940-9904-a4495ff9c827",
+		username: "PTL_Riau1",
+		role: "ptl-admin",
+		ptlId: "c96d9980-23aa-4e9b-863f-e684127f374d",
 	}
 
 	return next()

@@ -163,6 +163,7 @@ module.exports = {
 		return response.render("ptl-admin/submit-pa", {
 			baseUrl: process.env.BASE_URL,
 			flashMessages: request.flash(),
+			user: request.session.user,
 			mitra: mitra,
 			pa: pa,
 		})
@@ -178,6 +179,7 @@ module.exports = {
 		return response.render("mitra-admin/update-pa", {
 			baseUrl: process.env.BASE_URL,
 			flashMessages: request.flash(),
+			user: request.session.user,
 			pa: pa,
 		})
 	},
@@ -192,31 +194,91 @@ module.exports = {
 		return response.render("mitra-admin/form-update-pa", {
 			baseUrl: process.env.BASE_URL,
 			flashMessages: request.flash(),
+			user: request.session.user,
 			pa: pa[0],
 		})
 	},
 
 	monitoringPa: async (request, response) => {
-		const pa = await knex("pa")
-			.select("pa.*", "mitra.mitra_name as mitra")
-			.where("pa.ptl_id", request.session.user.ptlId)
-			.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
-			.orderBy("tanggal_terbit_pa")
-			.then((pa) => {
-				return pa.map((pa) => {
-					const currentTimestamp = Math.floor(new Date() / 1000)
-					const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
+		if (request.session.user.role == "ptl-manager") {
+			const pa = await knex("pa")
+				.select("pa.*", "mitra.mitra_name as mitra")
+				.where("pa.ptl_id", request.session.user.ptlId)
+				.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
+				.orderBy("tanggal_terbit_pa")
+				.then((pa) => {
+					return pa.map((pa) => {
+						const currentTimestamp = Math.floor(new Date() / 1000)
+						const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
 
-					return {
-						...pa,
-						aging: Math.ceil((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp - tanggalTerbitPaTimestamp) / 86400),
-					}
+						return {
+							...pa,
+							aging: Math.ceil((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp - tanggalTerbitPaTimestamp) / 86400),
+						}
+					})
 				})
-			})
 
-		return response.render("ptl-admin/monitoring-pa", {
+			return response.render("ptl-manager/monitoring-pa", {
+				baseUrl: process.env.BASE_URL,
+				user: request.session.user,
+				pa: pa,
+			})
+		} else if (request.session.user.role == "ptl-admin") {
+			const pa = await knex("pa")
+				.select("pa.*", "mitra.mitra_name as mitra")
+				.where("pa.ptl_id", request.session.user.ptlId)
+				.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
+				.orderBy("tanggal_terbit_pa")
+				.then((pa) => {
+					return pa.map((pa) => {
+						const currentTimestamp = Math.floor(new Date() / 1000)
+						const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
+
+						return {
+							...pa,
+							aging: Math.ceil((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp - tanggalTerbitPaTimestamp) / 86400),
+						}
+					})
+				})
+
+			return response.render("ptl-admin/monitoring-pa", {
+				baseUrl: process.env.BASE_URL,
+				user: request.session.user,
+				pa: pa,
+			})
+		} else if (request.session.user.role == "mitra-admin") {
+			const pa = await knex("pa")
+				.select("pa.*", "mitra.mitra_name as mitra")
+				.where("pa.mitra_id", request.session.user.mitraId)
+				.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
+				.orderBy("tanggal_terbit_pa")
+				.then((pa) => {
+					return pa.map((pa) => {
+						const currentTimestamp = Math.floor(new Date() / 1000)
+						const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
+
+						return {
+							...pa,
+							aging: Math.ceil((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp - tanggalTerbitPaTimestamp) / 86400),
+						}
+					})
+				})
+
+			return response.render("mitra-admin/monitoring-pa", {
+				baseUrl: process.env.BASE_URL,
+				pa: pa,
+			})
+		}
+	},
+
+	aging: (request, response) => {
+		if (request.session.user.role != "ptl-manager") {
+			return response.status(403).send("Permission denied")
+		}
+
+		return response.render("ptl-manager/aging", {
 			baseUrl: process.env.BASE_URL,
-			pa: pa,
+			user: request.session.user,
 		})
 	},
 }

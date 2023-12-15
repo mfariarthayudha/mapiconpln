@@ -9,6 +9,9 @@ const validatorjs = require("../../utilities/validatorjs")
 const knex = require("../../utilities/knex")
 const formidable = require("../../utilities/formidable")
 
+const { snakeCaseKeysToCamelCase } = require("../../utilities/object-utilities")
+const { generateExcel } = require("../../utilities/exceljs")
+
 module.exports = {
 	addPtl: async (request, response) => {
 		try {
@@ -523,6 +526,58 @@ module.exports = {
 			await knex("pa").where("id_pa", request.params.idPa).limit(1).update({ file_bai_bakl: null })
 
 			return response.redirect(`${process.env.BASE_URL}/update-pa/${request.params.idPa}`)
+		} catch (error) {
+			console.log(error)
+
+			switch (error?.error) {
+				case "permission-denied":
+					return response.status(403).send("Permission denied")
+			}
+		}
+	},
+
+	exportExcel: async (request, response) => {
+		try {
+			if (request.session.user.role != "ptl-manager") throw { error: "permission-denied" }
+
+			const pa = await knex("pa")
+				.select("pa.*", "mitra.mitra_name as mitra")
+				.where("ptl_id", request.session.user.ptlId)
+				.orderBy("tanggal_terbit_pa")
+				.where("pa.ptl_id", request.session.user.ptlId)
+				.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
+				.orderBy("tanggal_terbit_pa")
+				.then((pa) => {
+					return pa.map((pa) => {
+						delete pa.user_id
+						delete pa.ptl_id
+						delete pa.mitra_id
+
+						const currentTimestamp = Math.floor(new Date() / 1000)
+						const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
+
+						return snakeCaseKeysToCamelCase({
+							...pa,
+							tanggal_terbit_pa: `${new Date(pa.tanggal_terbit_pa).getFullYear()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.tanggal_terbit_pa).getDate()}`,
+							tracing_core: `${pa.tracing_core}%`,
+							testcom: `${pa.testcom}%`,
+							bai_user: `${pa.bai_user}%`,
+							tanggal_bai: `${new Date(pa.tanggal_bai).getFullYear()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getDate()}`,
+							aging: Math.ceil((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp - tanggalTerbitPaTimestamp) / 86400),
+						})
+					})
+				})
+
+			const { workbook } = await generateExcel({ PA: pa })
+
+			response.set({
+				"content-type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				"content-disposition": "attachment; filename=pa.xlsx",
+			})
+
+			await workbook.xlsx.write(response)
+
+			return response.end
 		} catch (error) {
 			console.log(error)
 

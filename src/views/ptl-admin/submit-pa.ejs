@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content="" />
-		<meta name="author" content="" />
 		<!-- <link rel="icon" href="../images/favicon.ico"> -->
 
-		<title>Submit PA - MAPIconPLN</title>
+		<title>Submit PA - MAP Icon PLN</title>
 
 		<!-- Vendors Style-->
 		<link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
@@ -36,12 +34,10 @@
 					<div class="navbar-custom-menu r-side">
 						<ul class="nav navbar-nav">
 							<li class="dropdown user user-menu">
-								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User">
-									<img src="/images/default-profile-picture.png" />
-								</a>
+								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User"> <img src="/images/default-profile-picture.png" alt="" /> <%= user.username %> </a>
 								<ul class="dropdown-menu animated flipInX">
 									<li class="user-body">
-										<a class="dropdown-item" href="<%= `${baseUrl}/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+										<a class="dropdown-item" href="<%= `${baseUrl}/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
 									</li>
 								</ul>
 							</li>
@@ -58,9 +54,9 @@
 							<a href="dashboard.html">
 								<!-- logo for regular state and mobile devices -->
 								<div class="d-flex align-items-center justify-content-center">
-									<!-- <img src="../images/logo-dark.png" alt=""> -->
-									<h3><b>Anonim</b> Test</h3>
+									<img src="/images/logo-map.png" class="w-100" />
 								</div>
+								<h5><b>MAP Icon PLN</b></h5>
 							</a>
 						</div>
 					</div>
@@ -68,7 +64,7 @@
 					<!-- sidebar menu-->
 					<ul class="sidebar-menu" data-widget="tree">
 						<li>
-							<a href="<%= `${baseUrl}` %>">
+							<a href="<%= baseUrl %>">
 								<i data-feather="pie-chart"></i>
 								<span>Dashboard</span>
 							</a>
@@ -89,6 +85,13 @@
 								<span>Monitoring PA</span>
 							</a>
 						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/aging` %>">
+								<i data-feather="pie-chart"></i>
+								<span>Aging</span>
+							</a>
+						</li>
 					</ul>
 				</section>
 			</aside>
@@ -100,7 +103,7 @@
 					<div class="content-header">
 						<div class="d-flex align-items-center">
 							<div class="mr-auto">
-								<h3 class="page-title">Anonim App</h3>
+								<h3 class="page-title">Map Icon PLN</h3>
 								<div class="d-inline-block align-items-center">
 									<nav>
 										<ol class="breadcrumb">
@@ -127,71 +130,70 @@
 									<div class="box-body">
 										<form method="post" action="/api/dashboard/submit-pa">
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2">ID PA</label>
+												<label class="col-form-label col-lg-2">ID PA <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
 													<input type="text" name="idPa" class="form-control" placeholder="ID PA" value="<%= flashMessages.idPaInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.idPaInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.idPaInputError?.[0] %></small>
 												</div>
 
-												<label class="col-form-label col-lg-2">Tanggal Terbit PA</label>
+												<label class="col-form-label col-lg-2">Tanggal Terbit PA <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
 													<input type="date" name="tanggalTerbitPa" class="form-control" placeholder="Tanggal Terbit PA" value="<%= flashMessages.tanggalTerbitPaInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.tanggalTerbitPaInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.tanggalTerbitPaInputError?.[0] %></small>
 												</div>
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2">Customer</label>
+												<label class="col-form-label col-lg-2">Customer <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
 													<input type="text" name="customer" class="form-control" placeholder="Customer" value="<%= flashMessages.customerInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.customerInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.customerInputError?.[0] %></small>
 												</div>
 
-												<label class="col-form-label col-lg-2">Lokasi</label>
+												<label class="col-form-label col-lg-2">Lokasi <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
 													<input type="text" name="lokasi" class="form-control" placeholder="Lokasi" value="<%= flashMessages.lokasiInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.lokasiInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.lokasiInputError?.[0] %></small>
 												</div>
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2">Layanan</label>
+												<label class="col-form-label col-lg-2">Layanan <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
 													<input type="text" name="layanan" class="form-control" placeholder="Layanan" value="<%= flashMessages.layananInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.layananInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.layananInputError?.[0] %></small>
 												</div>
 
-												<label class="col-form-label col-lg-2">Bandwith</label>
+												<label class="col-form-label col-lg-2">Bandwith <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
 													<input type="number" name="bandwidth" class="form-control" placeholder="Bandwith" value="<%= flashMessages.bandwidthInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.bandwidthInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.bandwidthInputError?.[0] %></small>
 												</div>
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2">Mitra</label>
+												<label class="col-form-label col-lg-2">Mitra <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
-													<!-- <input type="text" id="mitra-input" class="form-control" placeholder="Mitra" /> -->
-													<select class="form-control" name="mitra">
+													<select class="form-control" name="mitra" required>
 														<% mitra.forEach(mitra => { %>
 														<option value="<%= mitra.mitra_id %>"><%= mitra.mitra_name %></option>
 														<% }) %>
 													</select>
-													<small class="text-danger"><%= flashMessages.mitraInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.mitraInputError?.[0] %></small>
 												</div>
 
-												<label class="col-form-label col-lg-2">Panjang Tarikan</label>
+												<label class="col-form-label col-lg-2">Panjang Tarikan <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
 													<input type="number" name="panjangTarikan" class="form-control" placeholder="Panjang Tarikan" value="<%= flashMessages.panjangTarikanInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.panjangTarikanInputError?.[0] %></small>
+													<small class="text-danger"> <%= flashMessages.panjangTarikanInputError?.[0] %></small>
 												</div>
 											</div>
 
 											<div class="form-group row">
-												<label class="col-form-label col-lg-2">Jumlah JB</label>
+												<label class="col-form-label col-lg-2">Jumlah JB <span class="text-danger">*</span></label>
 												<div class="col-lg-4">
-													<input type="number" name="jumlahJb" class="form-control" placeholder="Jumlah JB" value="<%= flashMessages.jumlahJbInputValue?.[0] %>" />
-													<small class="text-danger"><%= flashMessages.jumlahJbInputError?.[0] %></small>
+													<input type="number" name="jumlahJb" class="form-control" placeholder="Mitra" value="<%= flashMessages.jumlahJbInputValue?.[0] %>" />
+													<small class="text-danger"> <%= flashMessages.jumlahJbInputError?.[0] %></small>
 												</div>
 											</div>
 
@@ -212,7 +214,7 @@
 							<div class="col-12">
 								<div class="box">
 									<div class="box-header with-border">
-										<h3 class="box-title">Data List PA</h3>
+										<h3 class="box-title">Daftar PA</h3>
 									</div>
 									<!-- /.box-header -->
 									<div class="box-body">
@@ -226,13 +228,13 @@
 														<th>Customer</th>
 														<th>Lokasi</th>
 														<th>Layanan</th>
-														<th>Bandwith</th>
+														<th>Bandwith (Mbps)</th>
 														<th>Mitra</th>
-														<th>Panjang Tarikan</th>
+														<th>Panjang Tarikan (M)</th>
 														<th>Jumlah JB</th>
 													</tr>
 												</thead>
-												<tbody id="pa-table-body">
+												<tbody>
 													<% pa.forEach((pa, index) => { %>
 													<tr>
 														<td><%= index + 1 %></td>
@@ -265,6 +267,15 @@
 				</div>
 			</div>
 			<!-- /.content-wrapper -->
+
+			<footer class="main-footer">
+				<div class="pull-right d-none d-sm-inline-block">
+					<ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+						<img class="p-2" src="/images/logo-pln.png" alt="Your Logo" style="max-height: 40px; /* adjust height as needed */" />
+					</ul>
+				</div>
+				&copy; 2023 MAP Icon PLN. All Rights Reserved.
+			</footer>
 		</div>
 		<!-- ./wrapper -->
 
@@ -276,5 +287,6 @@
 
 		<!-- Sunny Admin App -->
 		<script src="/sunny-admin/js/template.js"></script>
+		<script></script>
 	</body>
 </html>

@@ -43,12 +43,10 @@
 					<div class="navbar-custom-menu r-side">
 						<ul class="nav navbar-nav">
 							<li class="dropdown user user-menu">
-								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User">
-									<img src="/images/default-profile-picture.png" alt="" />
-								</a>
+								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User"> <img src="/images/default-profile-picture.png" /> <%= user.username %> </a>
 								<ul class="dropdown-menu animated flipInX">
 									<li class="user-body">
-										<a class="dropdown-item" href="<%= `${baseUrl}/api/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+										<a class="dropdown-item" href="<%= `${baseUrl}/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
 									</li>
 								</ul>
 							</li>
@@ -63,12 +61,12 @@
 				<section class="sidebar">
 					<div class="user-profile">
 						<div class="ulogo">
-							<a href="dashboard.html">
+							<a href="<%= baseUrl %>">
 								<!-- logo for regular state and mobile devices -->
 								<div class="d-flex align-items-center justify-content-center">
-									<!-- <img src="../images/logo-dark.png" alt=""> -->
-									<h3><b>Anonim</b> Test</h3>
+									<img src="/images/logo-map.png" class="w-100" />
 								</div>
+								<h5><b>MAP Icon PLN</b></h5>
 							</a>
 						</div>
 					</div>
@@ -88,13 +86,6 @@
 							<a href="<%= `${baseUrl}/ptl` %>">
 								<i data-feather="briefcase"></i>
 								<span>PTL</span>
-							</a>
-						</li>
-
-						<li>
-							<a href="<%= `${baseUrl}/ptl-manager` %>">
-								<i data-feather="user-check"></i>
-								<span>PTL Manager</span>
 							</a>
 						</li>
 
@@ -137,7 +128,6 @@
 											</div>
 											<div class="col-md-8">
 												<h6 class="text-muted font-semibold"><%= user.username %></h6>
-												<h6 class="font-extrabold mb-0">50 / 100</h6>
 											</div>
 										</div>
 									</div>
@@ -226,6 +216,14 @@
 				</div>
 			</div>
 			<!-- /.content-wrapper -->
+			<footer class="main-footer">
+				<div class="pull-right d-none d-sm-inline-block">
+					<ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+						<img class="p-2" src="/images/logo-pln.png" alt="Your Logo" style="max-height: 40px; /* adjust height as needed */" />
+					</ul>
+				</div>
+				&copy; 2023 MAP Icon PLN. All Rights Reserved.
+			</footer>
 		</div>
 		<!-- ./wrapper -->
 

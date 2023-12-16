@@ -11,7 +11,7 @@ module.exports = {
 				const numberOfPtl = await knex("ptl").count("ptl_id as ptl")
 				const numberOfPtlManager = await knex("users").where("role", "ptl-manager").count("user_id as user")
 				const numberOfPtlAdmin = await knex("users").where("role", "ptl-admin").count("user_id as user")
-				const numberOfMitra = await knex("users").where("role", "mitra").count("user_id as user")
+				const numberOfMitra = await knex("users").where("role", "mitra-admin").count("user_id as user")
 
 				return response.render("master/dashboard", {
 					baseUrl: process.env.BASE_URL,

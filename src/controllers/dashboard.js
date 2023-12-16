@@ -9,17 +9,17 @@ module.exports = {
 		try {
 			if (request.session.user.role == "master") {
 				const numberOfPtl = await knex("ptl").count("ptl_id as ptl")
-				const numberOfPtlManager = await knex("users").where("role", "ptl-manager").count("user_id as user")
 				const numberOfPtlAdmin = await knex("users").where("role", "ptl-admin").count("user_id as user")
-				const numberOfMitra = await knex("users").where("role", "mitra-admin").count("user_id as user")
+				const numberOfMitra = await knex("mitra").count("mitra_id as mitra")
+				const numberOfMitraAdmin = await knex("users").where("role", "mitra-admin").count("user_id as user")
 
 				return response.render("master/dashboard", {
 					baseUrl: process.env.BASE_URL,
 					user: request.session.user,
 					numberOfPtl: numberOfPtl[0].ptl,
-					numberOfPtlManager: numberOfPtlManager[0].user,
 					numberOfPtlAdmin: numberOfPtlAdmin[0].user,
-					numberOfMitra: numberOfMitra[0].user,
+					numberOfMitra: numberOfMitra[0].mitra,
+					numberOfMitraAdmin: numberOfMitraAdmin[0].user,
 				})
 			} else if (request.session.user.role == "ptl-admin") {
 				const totalPa = await knex("pa").where("ptl_id", request.session.user.ptlId).count("id_pa as pa")

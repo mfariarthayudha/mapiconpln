@@ -22,7 +22,7 @@ const router = express.Router()
 // 	return next()
 // })
 
-router.use(authenticationChecker)
+// router.use(authenticationChecker)
 
 router.use("/api", apiRoutes)
 

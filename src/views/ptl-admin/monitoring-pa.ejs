@@ -37,7 +37,7 @@
 								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User"> <img src="/images/default-profile-picture.png" alt="" /> <%= user.username %> </a>
 								<ul class="dropdown-menu animated flipInX">
 									<li class="user-body">
-										<a class="dropdown-item" href="<%= `${baseUrl}/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+										<a class="dropdown-item" href="<%= `${baseUrl}/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
 									</li>
 								</ul>
 							</li>
@@ -72,14 +72,14 @@
 
 						<li class="header nav-small-cap">Main Menu</li>
 
-						<li class="active">
+						<li>
 							<a href="<%= `${baseUrl}/submit-pa` %>">
 								<i data-feather="plus"></i>
 								<span>Submit PA</span>
 							</a>
 						</li>
 
-						<li>
+						<li class="active">
 							<a href="<%= `${baseUrl}/monitoring-pa` %>">
 								<i data-feather="database"></i>
 								<span>Monitoring PA</span>
@@ -128,6 +128,45 @@
 									</div>
 									<!-- /.box-header -->
 									<div class="box-body">
+										<a href="<%= `${baseUrl}/api/dashboard/export-excel` %>" class="btn btn-success mb-3">Export Excel</a>
+
+										<form method="get">
+											<div class="row justify-content-end mb-3">
+												<div class="col-lg-2">
+													<label>Tracing Core</label>
+													<select class="form-control" name="tracingCore" required>
+														<option value="all" <%= selectedTracingCoreValue == 'all' ? 'selected' : '' %>>Semua</option>
+														<option value="0" <%= selectedTracingCoreValue == '0' ? 'selected' : '' %>>0%</option>
+														<option value="50" <%= selectedTracingCoreValue == '50' ? 'selected' : '' %>>50%</option>
+														<option value="100" <%= selectedTracingCoreValue == '10' ? 'selected' : '' %>>100%</option>
+													</select>
+												</div>
+
+												<div class="col-lg-2">
+													<label>Testcom</label>
+													<select class="form-control" name="testcom" required>
+														<option value="all" <%= selectedTestcomValue == 'all' ? 'selected' : '' %>>Semua</option>
+														<option value="0" <%= selectedTestcomValue == '0' ? 'selected' : '' %>>0%</option>
+														<option value="50" <%= selectedTestcomValue == '50' ? 'selected' : '' %>>50%</option>
+														<option value="100" <%= selectedTestcomValue == '10' ? 'selected' : '' %>>100%</option>
+													</select>
+												</div>
+
+												<div class="col-lg-2">
+													<label>BAI User</label>
+													<select class="form-control" name="baiUser" required>
+														<option value="all" <%= selectedBaiUserValue == 'all' ? 'selected' : '' %>>Semua</option>
+														<option value="0" <%= selectedBaiUserValue == '0' ? 'selected' : '' %>>0%</option>
+														<option value="50" <%= selectedBaiUserValue == '50' ? 'selected' : '' %>>50%</option>
+														<option value="100" <%= selectedBaiUserValue == '10' ? 'selected' : '' %>>100%</option>
+													</select>
+												</div>
+											</div>
+											<div class="text-right mb-3">
+												<button type="submit" class="btn btn-primary">Cari</button>
+											</div>
+										</form>
+
 										<div class="table-responsive">
 											<table id="example1" class="table table-bordered table-striped" style="width: 100%">
 												<thead>
@@ -140,29 +179,56 @@
 														<th>Layanan</th>
 														<th>Bandwith (Mbps)</th>
 														<th>Foto Briefing K3</th>
-														<th>Panjang Tarikan (m)</th>
-														<th>Progress Tarikan</th>
+														<th>Panjang Tarikan (M)</th>
+														<th>Progress Tarikan (M)</th>
 														<th>Jumlah JB</th>
 														<th>Tracing Core</th>
 														<th>Testcom</th>
+														<th>Upload Testcom</th>
+														<th>BAI User</th>
+														<th>Upload BAI</th>
+														<th>Tanggal BAI</th>
+														<th>Kendala</th>
+														<th>Aging</th>
 													</tr>
 												</thead>
 												<tbody>
+													<% pa.forEach((pa, index) => { %>
 													<tr>
-														<td>1</td>
-														<td>198273SKJDF0917</td>
-														<td>2023-01-01</td>
-														<td>Tester</td>
-														<td>Tester</td>
-														<td>Tester</td>
-														<td>Tester</td>
-														<td><a href="#" class="photo-link" data-toggle="modal" data-target="#photoModal">View Photo</a></td>
-														<td>Tester</td>
-														<td><a href="#" class="pdf-link" data-toggle="modal" data-target="#pdfModal">View PDF</a></td>
-														<td>Tester</td>
-														<td>Tester</td>
-														<td>Tester</td>
+														<td><%= index + 1 %></td>
+														<td><%= pa.id_pa %></td>
+														<td><%= pa.tanggal_terbit_pa %></td>
+														<td><%= pa.customer %></td>
+														<td><%= pa.lokasi %></td>
+														<td><%= pa.layanan %></td>
+														<td><%= pa.bandwidth %></td>
+														<td>
+															<% if (pa.foto_briefing_k3 != null) { %>
+															<a href="<%= `${baseUrl}/uploaded-files/${pa.foto_briefing_k3}` %>" class="btn btn-primary">Lihat</a>
+															<% } %>
+														</td>
+														<td><%= pa.panjang_tarikan %></td>
+														<td><%= pa.progres_tarikan %></td>
+														<td><%= pa.jumlah_jb %></td>
+														<td><%= pa.tracing_core %>%</td>
+														<td><%= pa.testcom %>%</td>
+
+														<td>
+															<% if (pa.file_testcom != null) { %>
+															<a href="<%= `${baseUrl}/uploaded-files/${pa.file_testcom}` %>" class="btn btn-primary">Lihat</a>
+															<% } %>
+														</td>
+														<td><%= pa.bai_user %>%</td>
+														<td>
+															<% if (pa.file_bai_bakl != null) { %>
+															<a href="<%= `${baseUrl}/uploaded-files/${pa.file_bai_bakl}` %>" class="btn btn-primary">Lihat</a>
+															<% } %>
+														</td>
+														<td><%= pa.tanggal_bai %></td>
+														<td><%= pa.Kendala %></td>
+														<td><%= pa.aging %> Hari</td>
 													</tr>
+													<% }) %>
 												</tbody>
 											</table>
 										</div>
@@ -185,12 +251,11 @@
 			<footer class="main-footer">
 				<div class="pull-right d-none d-sm-inline-block">
 					<ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
-						<img class="p-2" src="images/logo_pln.png" alt="Your Logo" style="max-height: 40px; /* adjust height as needed */" />
+						<img class="p-2" src="/images/logo-pln.png" alt="Your Logo" style="max-height: 40px; /* adjust height as needed */" />
 					</ul>
 				</div>
-				&copy; 2023 <a href="#">Monitoring Activation Project</a>. All Rights Reserved.
+				&copy; 2023 MAP Icon PLN. All Rights Reserved.
 			</footer>
-			>
 		</div>
 		<!-- ./wrapper -->
 
@@ -230,22 +295,22 @@
 		</div>
 
 		<script>
-			     $(document).ready(function() {
-			  $('.photo-link').on('click', function(e) {
-			    e.preventDefault();
-			    var photoUrl = 'images/logo_pln.png'; // Adjust the path based on the image location
-			    $('#modalPhoto').attr('src', photoUrl);
-			    $('#photoModal').modal('show');
-			  });
-			});
+			//      $(document).ready(function() {
+			//   $('.photo-link').on('click', function(e) {
+			//     e.preventDefault();
+			//     var photoUrl = 'images/logo_pln.png'; // Adjust the path based on the image location
+			//     $('#modalPhoto').attr('src', photoUrl);
+			//     $('#photoModal').modal('show');
+			//   });
+			// });
 
-			      $('.pdf-link').on('click', function(e) {
-			        e.preventDefault();
-			        var pdfUrl = 'urlpdfdatabasefari';
-			        $('#modalPDF').attr('src', pdfUrl);
-			        $('#pdfModal').modal('show');
-			      });
-			    });
+			//       $('.pdf-link').on('click', function(e) {
+			//         e.preventDefault();
+			//         var pdfUrl = 'urlpdfdatabasefari';
+			//         $('#modalPDF').attr('src', pdfUrl);
+			//         $('#pdfModal').modal('show');
+			//       });
+			//     });
 		</script>
 
 		<!-- Vendor JS -->

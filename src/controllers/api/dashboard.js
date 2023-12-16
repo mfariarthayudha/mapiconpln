@@ -1,6 +1,7 @@
 "use strict"
 
 const fs = require("fs").promises
+const path = require("path")
 
 const uuid = require("uuid")
 const bcrypt = require("bcrypt")
@@ -10,7 +11,7 @@ const knex = require("../../utilities/knex")
 const formidable = require("../../utilities/formidable")
 
 const { snakeCaseKeysToCamelCase } = require("../../utilities/object-utilities")
-const { generateExcel } = require("../../utilities/exceljs")
+const { generateExcel, readExcel } = require("../../utilities/exceljs")
 
 module.exports = {
 	addPtl: async (request, response) => {
@@ -536,9 +537,59 @@ module.exports = {
 		}
 	},
 
+	deletePa: async (request, response) => {
+		try {
+			if (request.session.user.role != "ptl-admin") throw { error: "permission-denied" }
+
+			const pa = await knex("pa").where("id_pa", request.params.idPa).limit(1)
+
+			if (pa.length < 1) throw { error: "pa-not-found" }
+
+			if (pa[0].foto_briefing_k3 != null) {
+				await fs.unlink(path.join(__dirname, `../../../public/uploaded-files/${pa[0].foto_briefing_k3}`))
+			}
+
+			if (pa[0].file_testcom != null) {
+				await fs.unlink(path.join(__dirname, `../../../public/uploaded-files/${pa[0].file_testcom}`))
+			}
+
+			if (pa[0].file_bai_bakl != null) {
+				await fs.unlink(path.join(__dirname, `../../../public/uploaded-files/${pa[0].file_bai_bakl}`))
+			}
+
+			await knex("pa").where("id_pa", request.params.idPa).del()
+
+			request.flash(
+				"message",
+				`
+					<div class="alert alert-success alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Berhasil menghapus PA </div>
+				`
+			)
+
+			return response.redirect(`${process.env.BASE_URL}/submit-pa`)
+		} catch (error) {
+			console.log(error)
+
+			switch (error?.error) {
+				case "permission-denied":
+					return response.status(403).send("Permission denied")
+
+				case "pa-not-found":
+					request.flash(
+						"message",
+						`
+							<div class="alert alert-danger alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> PA tidak ditemukan </div>
+						`
+					)
+			}
+		}
+	},
+
 	exportExcel: async (request, response) => {
 		try {
-			if (request.session.user.role != "ptl-manager") throw { error: "permission-denied" }
+			if (request.session.user.role != "ptl-admin") throw { error: "permission-denied" }
 
 			const pa = await knex("pa")
 				.select("pa.*", "mitra.mitra_name as mitra")
@@ -584,6 +635,70 @@ module.exports = {
 			switch (error?.error) {
 				case "permission-denied":
 					return response.status(403).send("Permission denied")
+			}
+		}
+	},
+
+	importExcelSubmitPa: async (request, response) => {
+		try {
+			if (request.session.user.role != "ptl-admin") throw { error: "permission-denied" }
+
+			const { files } = await formidable(request, path.join(__dirname, "../../../public/uploaded-files"))
+
+			const pa = await readExcel(path.join(__dirname, `../../../public/uploaded-files/${files.pa}`)).then((pa) => {
+				return pa.map((pa) => {
+					return {
+						id_pa: pa.id_pa,
+						user_id: request.session.user.userId,
+						ptl_id: request.session.user.ptlId,
+						mitra_id: pa.mitra_id,
+						tanggal_terbit_pa: pa.tanggal_terbit_pa,
+						customer: pa.customer,
+						lokasi: pa.lokasi,
+						layanan: pa.layanan,
+						bandwidth: pa.bandwidth,
+						panjang_tarikan: pa.panjang_tarikan,
+						jumlah_jb: pa.jumlah_jb,
+					}
+				})
+			})
+
+			for (let i = 0; i < pa.length; i++) {
+				await validatorjs(pa[i], {
+					id_pa: "required|string|max:16",
+					mitra_id: "required|string|max:36",
+					tanggal_terbit_pa: "required|string",
+					customer: "required|string|max:128",
+					lokasi: "required|string|max:256",
+					layanan: "required|string|max:32",
+					bandwidth: "required|integer",
+					panjang_tarikan: "required|integer",
+					jumlah_jb: "required|integer",
+				})
+			}
+
+			await knex("pa")
+				.insert(pa)
+				.catch((error) => {
+					if (error?.code == "ER_DUP_ENTRY") throw { error: "duplicate-pa" }
+					throw error
+				})
+
+			return response.redirect(`${process.env.BASE_URL}/submit-pa`)
+		} catch (error) {
+			console.log(error)
+
+			switch (error?.error) {
+				case "permission-denied":
+					return response.status(403).send("Permission denied")
+
+				case "validatorjs-utility/validation-fails":
+					request.flash(`excelInputError`, "Terdapat kesalahan pada data yang di import")
+					return response.redirect(`${process.env.BASE_URL}/submit-pa`)
+
+				case "duplicate-pa":
+					request.flash(`excelInputError`, "Terdapat PA yang duplikat didalam file excel")
+					return response.redirect(`${process.env.BASE_URL}/submit-pa`)
 			}
 		}
 	},

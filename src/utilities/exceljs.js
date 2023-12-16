@@ -35,11 +35,50 @@ module.exports = {
 
 				return resolve({ workbook: workbook })
 			} catch (error) {
-				console.log("exceljs-utilities\n", error)
+				console.log("exceljs-utilities/generateExcel\n", error)
 
 				switch (error?.error) {
 					default:
-						return reject({ error: "exceljs-utilities/unknown-error-occured" })
+						return reject({ error: "exceljs-utilities/generateExcel/unknown-error-occured" })
+				}
+			}
+		})
+	},
+
+	readExcel: (excelFile) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const workbook = new exceljs.Workbook()
+
+				await workbook.xlsx.readFile(excelFile)
+
+				const sheet = workbook.worksheets[0]
+
+				let columnsName = []
+				let data = []
+
+				sheet.eachRow((row, rowNumber) => {
+					let dataInRow = {}
+
+					row.eachCell((cell, columnNumber) => {
+						if (rowNumber == 1) {
+							columnsName.push(cell.value)
+							return
+						}
+
+						dataInRow[columnsName[columnNumber - 1]] = cell.value
+					})
+
+					if (rowNumber > 1) data.push(dataInRow)
+				})
+
+				return resolve(data)
+			} catch (error) {
+				console.log("exceljs-utilities/readExcel\n", error)
+
+				switch (error?.error) {
+					default:
+						return reject({ error: "exceljs-utilities/readExcel/unknown-error-occured" })
 				}
 			}
 		})

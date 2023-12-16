@@ -89,6 +89,7 @@ module.exports = {
 
 			return response.render("master/ptl", {
 				baseUrl: process.env.BASE_URL,
+				user: request.session.user,
 				flashMessages: request.flash(),
 				ptl: ptl,
 			})
@@ -123,6 +124,7 @@ module.exports = {
 
 			return response.render("master/ptl-admin", {
 				baseUrl: process.env.BASE_URL,
+				user: request.session.user,
 				flashMessages: request.flash(),
 				ptl: ptl,
 				ptlAdmin: ptlAdmin,
@@ -152,6 +154,7 @@ module.exports = {
 
 			return response.render("master/mitra", {
 				baseUrl: process.env.BASE_URL,
+				user: request.session.user,
 				flashMessages: request.flash(),
 				mitra: mitra,
 			})
@@ -186,6 +189,7 @@ module.exports = {
 
 			return response.render("master/mitra-admin", {
 				baseUrl: process.env.BASE_URL,
+				user: request.session.user,
 				flashMessages: request.flash(),
 				mitra: mitra,
 				mitraAdmin: mitraAdmin,

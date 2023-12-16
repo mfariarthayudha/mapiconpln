@@ -11,16 +11,16 @@ const authenticationRoutes = require("./authentication")
 
 const router = express.Router()
 
-router.use((request, response, next) => {
-	request.session.user = {
-		userId: "f2839094-b7a1-4940-9904-a4495ff9c827",
-		username: "PTL_Riau1",
-		role: "ptl-admin",
-		ptlId: "c96d9980-23aa-4e9b-863f-e684127f374d",
-	}
+// router.use((request, response, next) => {
+// 	request.session.user = {
+// 		userId: "f2839094-b7a1-4940-9904-a4495ff9c827",
+// 		username: "PTL_Riau1",
+// 		role: "ptl-admin",
+// 		ptlId: "c96d9980-23aa-4e9b-863f-e684127f374d",
+// 	}
 
-	return next()
-})
+// 	return next()
+// })
 
 router.use(authenticationChecker)
 

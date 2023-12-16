@@ -271,7 +271,24 @@ module.exports = {
 		try {
 			if (request.session.user.role != "mitra-admin") throw { error: "permission-denied" }
 
-			const pa = await knex("pa").where("id_pa", request.params.idPa)
+			const pa = await knex("pa")
+				.select("pa.*", "mitra.mitra_name as mitra")
+				.where("pa.id_pa", request.params.idPa)
+				.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
+				.orderBy("tanggal_terbit_pa")
+				.then((pa) => {
+					return pa.map((pa) => {
+						const currentTimestamp = Math.floor(new Date() / 1000)
+						const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
+
+						return {
+							...pa,
+							tanggal_terbit_pa: `${new Date(pa.tanggal_terbit_pa).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.tanggal_terbit_pa).getFullYear()}`,
+							tanggal_bai: Math.floor(new Date(pa.tanggal_bai) / 1000) > 0 ? `${new Date(pa.tanggal_bai).getDate()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getFullYear()}` : null,
+							aging: Math.ceil(((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp) - tanggalTerbitPaTimestamp) / 86400),
+						}
+					})
+				})
 
 			return response.render("mitra-admin/form-update-pa", {
 				baseUrl: process.env.BASE_URL,
@@ -337,7 +354,7 @@ module.exports = {
 						})
 					})
 
-				return response.render("ptl-admin/monitoring-pa", {
+				return response.render("monitoring-pa", {
 					baseUrl: process.env.BASE_URL,
 					user: request.session.user,
 					pa: pa,
@@ -346,8 +363,27 @@ module.exports = {
 					selectedBaiUserValue: request.query.baiUser,
 				})
 			} else if (request.session.user.role == "mitra-admin") {
-				const pa = await knex("pa")
-					.select("pa.*", "mitra.mitra_name as mitra")
+				const query = knex("pa").select("pa.*", "mitra.mitra_name as mitra")
+
+				if (lodash.isNil(request.query.tracingCore) == false) {
+					if (request.query.tracingCore !== "all") {
+						query.where("tracing_core", request.query.tracingCore)
+					}
+				}
+
+				if (lodash.isNil(request.query.testcom) == false) {
+					if (request.query.testcom !== "all") {
+						query.where("testcom", request.query.testcom)
+					}
+				}
+
+				if (lodash.isNil(request.query.baiUser) == false) {
+					if (request.query.baiUser !== "all") {
+						query.where("bai_user", request.query.baiUser)
+					}
+				}
+
+				const pa = await query
 					.where("pa.mitra_id", request.session.user.mitraId)
 					.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
 					.orderBy("tanggal_terbit_pa")
@@ -358,14 +394,20 @@ module.exports = {
 
 							return {
 								...pa,
-								aging: Math.ceil((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp - tanggalTerbitPaTimestamp) / 86400),
+								tanggal_terbit_pa: `${new Date(pa.tanggal_terbit_pa).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.tanggal_terbit_pa).getFullYear()}`,
+								tanggal_bai: Math.floor(new Date(pa.tanggal_bai) / 1000) > 0 ? `${new Date(pa.tanggal_bai).getDate()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getFullYear()}` : null,
+								aging: Math.ceil(((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp) - tanggalTerbitPaTimestamp) / 86400),
 							}
 						})
 					})
 
-				return response.render("mitra-admin/monitoring-pa", {
+				return response.render("monitoring-pa", {
 					baseUrl: process.env.BASE_URL,
+					user: request.session.user,
 					pa: pa,
+					selectedTracingCoreValue: request.query.tracingCore,
+					selectedTestcomValue: request.query.testcom,
+					selectedBaiUserValue: request.query.baiUser,
 				})
 			} else {
 				throw { error: "permission-denied" }

@@ -1,160 +1,144 @@
-
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!-- <link rel="icon" href="../images/favicon.ico"> -->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<!-- <link rel="icon" href="../images/favicon.ico"> -->
 
-    <title>Update PA - MAPIconPLN</title>
+		<title>Update PA - MAP Icon PLN</title>
 
-    <!-- Vendors Style-->
-    <link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
+		<!-- Vendors Style-->
+		<link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
 
-    <!-- Style-->
-    <link rel="stylesheet" href="/sunny-admin/css/style.css" />
-    <link rel="stylesheet" href="/sunny-admin/css/skin_color.css" />
+		<!-- Style-->
+		<link rel="stylesheet" href="/sunny-admin/css/style.css" />
+		<link rel="stylesheet" href="/sunny-admin/css/skin_color.css" />
 
-    <style>
-      /* CSS to style the edit button */
-      .btn-edit {
-        padding: 15px 5px; /* Adjust padding to change button size */
-        margin: 5px 5px 5px 5px;
-        height: 28px;
-        width: 100%;
-        font-size: 10px; /* Adjust font size */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+		<style>
+			/* CSS to style the edit button */
+			.btn-edit {
+				padding: 15px 5px; /* Adjust padding to change button size */
+				margin: 5px 5px 5px 5px;
+				height: 28px;
+				width: 100%;
+				font-size: 10px; /* Adjust font size */
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
 
-      .btn-td {
-        width: 10%;
-        vertical-align: middle;
-        justify-content: center;
-        align-items: center;
-      }
-    </style>
-  </head>
+			.btn-td {
+				width: 10%;
+				vertical-align: middle;
+				justify-content: center;
+				align-items: center;
+			}
+		</style>
+	</head>
 
-  <body class="hold-transition light-skin sidebar-mini theme-primary">
-    <div class="wrapper">
-      <header class="main-header">
-        <nav class="navbar navbar-static-top pl-30">
-          <!-- Sidebar toggle button-->
-          <div>
-            <ul class="nav">
-              <li class="btn-group nav-item">
-                <a
-                  href="#"
-                  class="waves-effect waves-light nav-link rounded svg-bt-icon"
-                  data-toggle="push-menu"
-                  role="button"
-                >
-                  <i class="nav-link-icon mdi mdi-menu"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
+	<body class="hold-transition light-skin sidebar-mini theme-primary">
+		<div class="wrapper">
+			<header class="main-header">
+				<nav class="navbar navbar-static-top pl-30">
+					<!-- Sidebar toggle button-->
+					<div>
+						<ul class="nav">
+							<li class="btn-group nav-item">
+								<a href="#" class="waves-effect waves-light nav-link rounded svg-bt-icon" data-toggle="push-menu" role="button">
+									<i class="nav-link-icon mdi mdi-menu"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
 
-          <div class="navbar-custom-menu r-side">
-            <ul class="nav navbar-nav">
-              <li class="dropdown user user-menu">
-                <a
-                  href="#"
-                  class="waves-effect waves-light rounded dropdown-toggle p-0"
-                  data-toggle="dropdown"
-                  title="User"
-                >
-                  <img src="/images/default-profile-picture.png" />
-                </a>
-                <ul class="dropdown-menu animated flipInX">
-                  <li class="user-body">
-                    <a class="dropdown-item" href="<%= `${baseUrl}/api/api/authentication/logout` %>"
-                      ><i class="ti-lock text-muted mr-2"></i> Logout</a
-                    >
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
+					<div class="navbar-custom-menu r-side">
+						<ul class="nav navbar-nav">
+							<li class="dropdown user user-menu">
+								<a href="#" class="waves-effect waves-light rounded dropdown-toggle p-0" data-toggle="dropdown" title="User"> <img src="/images/default-profile-picture.png" alt="" /> <%= user.username %> </a>
+								<ul class="dropdown-menu animated flipInX">
+									<li class="user-body">
+										<a class="dropdown-item" href="<%= `${baseUrl}/api/authentication/logout` %>"><i class="ti-lock text-muted mr-2"></i> Logout</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
 
-      <aside class="main-sidebar">
-        <!-- sidebar-->
-        <section class="sidebar">
-          <div class="user-profile">
-            <div class="ulogo">
-              <a href="dashboard.html">
-                <!-- logo for regular state and mobile devices -->
-                <div class="d-flex align-items-center justify-content-center">
-                  <!-- <img src="../images/logo-dark.png" alt=""> -->
-                  <h3><b>MAP</b>IconPLN</h3>
-                </div>
-              </a>
-            </div>
-          </div>
+			<aside class="main-sidebar">
+				<!-- sidebar-->
+				<section class="sidebar">
+					<div class="user-profile">
+						<div class="ulogo">
+							<a href="<%= baseUrl %>">
+								<!-- logo for regular state and mobile devices -->
+								<div class="d-flex align-items-center justify-content-center">
+									<img src="/images/logo-map.png" class="w-100" />
+								</div>
+								<h5><b>MAP Icon PLN</b></h5>
+							</a>
+						</div>
+					</div>
 
-          <!-- sidebar menu-->
-            <ul class="sidebar-menu" data-widget="tree">
-                <li>
-                    <a href="<%= `${baseUrl}` %>">
-                        <i data-feather="pie-chart"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
+					<!-- sidebar menu-->
+					<ul class="sidebar-menu" data-widget="tree">
+						<li>
+							<a href="<%= baseUrl %>">
+								<i data-feather="pie-chart"></i>
+								<span>Dashboard</span>
+							</a>
+						</li>
 
-                <li class="header nav-small-cap">Main Menu</li>
+						<li class="header nav-small-cap">Main Menu</li>
 
-                <li class="active">
-                    <a href="<%= `${baseUrl}/update-pa` %>">
-                        <i data-feather="edit"></i>
-                        <span>Update PA</span>
-                    </a>
-                </li>
+						<li class="active">
+							<a href="<%= `${baseUrl}/update-pa` %>">
+								<i data-feather="edit"></i>
+								<span>Update PA</span>
+							</a>
+						</li>
 
-                <li>
-                    <a href="<%= `${baseUrl}/monitoring-pa` %>">
-                        <i data-feather="database"></i>
-                        <span>Monitoring PA</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-      </aside>
+						<li>
+							<a href="<%= `${baseUrl}/monitoring-pa` %>">
+								<i data-feather="database"></i>
+								<span>Monitoring PA</span>
+							</a>
+						</li>
+					</ul>
+				</section>
+			</aside>
 
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-        <div class="container-full">
-          <!-- Content Header (Page header) -->
-          <div class="content-header">
-            <div class="d-flex align-items-center">
-              <div class="mr-auto">
-                <h3 class="page-title">MAPIconPLN</h3>
-                <div class="d-inline-block align-items-center">
-                  <nav>
-                    <ol class="breadcrumb">
-                      <li class="breadcrumb-item">
-                        <a href="dashboard.html"><i class="mdi mdi-home-outline"></i></a>
-                      </li>
-                      <li class="breadcrumb-item">
-                     
-                        <a href="<%= `${baseUrl}/update-pa` %>">Update PA</a>
-
-                      </li>
-                      <li class="breadcrumb-item active" aria-current="page">
-                        <%= pa.id_pa %>
-                      </li> 
-                    </ol>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </div>
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<div class="container-full">
+					<!-- Content Header (Page header) -->
+					<div class="content-header">
+						<div class="d-flex align-items-center">
+							<div class="mr-auto">
+								<h3 class="page-title">MAP Icon PLN</h3>
+								<div class="d-inline-block align-items-center">
+									<nav>
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item">
+												<a href="#"><i class="mdi mdi-home-outline"></i></a>
+											</li>
+											<li class="breadcrumb-item">
+                                                <a href="<%= `${baseUrl}/update-pa` %>">Update PA</i></a>
+                                            </li>
+                                            <li class="breadcrumb-item active" aria-current="page">
+                                                <%= pa.id_pa %>
+                                            </li>
+										</ol>
+									</nav>
+                                </div>
+							</div>
+						</div>
+					</div>
+                    
 
           <!-- Main content -->
           <div class="box-header">
@@ -170,12 +154,61 @@
               </div>
 
               <div class="form-group row">
-                <label class="col-form-label col-lg-3">Customer</label>
+                <label class="col-form-label col-lg-3">Tanggal Terbit PA</label>
                 <div class="col-lg-9">
-                  <input type="text" name="customer" class="form-control" value="<%= pa.customer %>" placeholder="Customer" />
+                  <input type="date" class="form-control" <% if (pa.tanggal_terbit_pa != null) { %> value="<%= `${pa.tanggal_terbit_pa.split('-')[2]}-${pa.tanggal_terbit_pa.split('-')[1]}-${pa.tanggal_terbit_pa.split('-')[0]}` %>" <% } %> disabled />
+
                 </div>
               </div>
 
+              <div class="form-group row">
+                <label class="col-form-label col-lg-3">Customer</label>
+                <div class="col-lg-9">
+                  <input type="text" class="form-control" value="<%= pa.customer %>" placeholder="Customer" disabled />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-form-label col-lg-3">Lokasi</label>
+                <div class="col-lg-9">
+                  <input type="text" class="form-control" value="<%= pa.lokasi %>" placeholder="Customer" disabled />
+                </div>
+              </div>
+              
+              <div class="form-group row">
+                <label class="col-form-label col-lg-3">Layanan</label>
+                <div class="col-lg-9">
+                  <input type="text" class="form-control" value="<%= pa.layanan %>" placeholder="Customer" disabled />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-form-label col-lg-3">Bandwidth</label>
+                <div class="col-lg-9">
+                  <input type="number" class="form-control" value="<%= pa.bandwidth %>" placeholder="Customer" disabled />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-form-label col-lg-3">Mitra</label>
+                <div class="col-lg-9">
+                  <input type="text" name="customer" class="form-control" value="<%= pa.mitra %>" placeholder="Customer" disabled />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-form-label col-lg-3">Panjang Tarikan (M)</label>
+                <div class="col-lg-9">
+                  <input type="number" class="form-control" value="<%= pa.panjang_tarikan %>" placeholder="Panjang Tarikan (M)" disabled />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-form-label col-lg-3">Jumlah JB</label>
+                <div class="col-lg-9">
+                  <input type="number" class="form-control" value="<%= pa.jumlah_jb %>" placeholder="Jumlah JB" disabled />
+                </div>
+              </div>
 
               <div class="form-group row">
                 <label class="col-form-label col-lg-3">Foto Briefing K3</label>
@@ -193,23 +226,9 @@
               </div>  
 
               <div class="form-group row">
-                <label class="col-form-label col-lg-3">Panjang Tarikan (M)</label>
-                <div class="col-lg-9">
-                  <input type="number" name="panjangTarikan" class="form-control" value="<%= pa.panjang_tarikan %>" placeholder="Panjang Tarikan (M)" />
-                </div>
-              </div>
-
-              <div class="form-group row">
                 <label class="col-form-label col-lg-3">Progres Tarikan (M)</label>
                 <div class="col-lg-9">
                   <input type="number" name="progresTarikan" class="form-control" value="<%= pa.progres_tarikan %>" placeholder="Progres Tarikan (M)" />
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label class="col-form-label col-lg-3">Jumlah JB</label>
-                <div class="col-lg-9">
-                  <input type="number" name="jumlahJb" class="form-control" value="<%= pa.jumlah_jb %>" placeholder="Jumlah JB" />
                 </div>
               </div>
 
@@ -242,6 +261,7 @@
                   <div class="custom-file">
                     <input type="file" name="fileTestcom" class="custom-file-input">
                     <label class="custom-file-label" for="customFile">Upload Testcom</label>
+                    <small class="text-danger"><%= flashMessages.fileTestcomInputError?.[0] %></small>
                   </div>
                   <% } else { %>
                   <a href="<%= `${baseUrl}/uploaded-files/${pa.file_testcom}` %>" class="btn btn-primary mb-5">Lihat</a>
@@ -254,9 +274,9 @@
                 <label class="col-form-label col-lg-3">BAI User</label>
                 <div class="col-lg-9">
                   <select name="baiUser" class="form-control">
-                      <option value="0" <%= pa.baiUser == 0 ? "selected" : "" %>>0%</option>
-                      <option value="50" <%= pa.baiUser == 50 ? "selected" : "" %>>50%</option>
-                      <option value="100" <%= pa.baiUser == 100 ? "selected" : "" %>>100%</option>
+                      <option value="0" <%= pa.bai_user == 0 ? "selected" : "" %>>0%</option>
+                      <option value="50" <%= pa.bai_user == 50 ? "selected" : "" %>>50%</option>
+                      <option value="100" <%= pa.bai_user == 100 ? "selected" : "" %>>100%</option>
                   </select>
                 </div>
               </div>
@@ -268,6 +288,7 @@
                   <div class="custom-file">
                     <input type="file" name="fileBaiBakl" class="custom-file-input">
                     <label class="custom-file-label" for="customFile">Upload BAI</label>
+                    <small class="text-danger"><%= flashMessages.fileBaiBaklInputError?.[0] %></small>
                   </div>
                   <% } else { %>
                     <a href="<%= `${baseUrl}/uploaded-files/${pa.file_bai_bakl}` %>" class="btn btn-primary mb-5">Lihat</a>
@@ -279,7 +300,7 @@
               <div class="form-group row">
                 <label class="col-form-label col-lg-3">Tanggal BAI</label>
                 <div class="col-lg-9">
-                  <input type="date" name="tanggalBai" class="form-control" <% if (pa.tanggal_bai != null) { %> value="<%= `${new Date(pa.tanggal_bai).getFullYear()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getDate()}` %>" <% } %> />
+                  <input type="date" name="tanggalBai" class="form-control" <% if (pa.tanggal_bai != null) { %> value="<%= `${pa.tanggal_terbit_pa.split('-')[2]}-${pa.tanggal_bai.split('-')[1]}-${pa.tanggal_bai.split('-')[0]}` %>" <% } %> />
 
                 </div>
               </div>
@@ -302,6 +323,17 @@
         </div>
       </div>
       <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <div class="pull-right d-none d-sm-inline-block">
+                <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
+                    <img class="p-2" src="/images/logo-pln.png" alt="Your Logo" style="max-height: 40px; /* adjust height as needed */" />
+                </ul>
+            </div>
+            &copy; 2023 MAP Icon PLN. All Rights Reserved.
+        </footer>
+
+      
     </div>
     <!-- ./wrapper -->
 

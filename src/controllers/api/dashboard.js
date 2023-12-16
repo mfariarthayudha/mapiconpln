@@ -5,6 +5,7 @@ const path = require("path")
 
 const uuid = require("uuid")
 const bcrypt = require("bcrypt")
+const lodash = require("lodash")
 
 const validatorjs = require("../../utilities/validatorjs")
 const knex = require("../../utilities/knex")
@@ -351,6 +352,14 @@ module.exports = {
 				}
 			)
 
+			await knex("pa")
+				.where("id_pa", request.body.idPa)
+				.limit(1)
+				.count("id_pa as pa")
+				.then((result) => {
+					if (result[0].pa > 0) throw { error: "duplicate-id-pa" }
+				})
+
 			await knex("pa").insert({
 				id_pa: request.body.idPa,
 				user_id: request.session.user.userId,
@@ -371,12 +380,27 @@ module.exports = {
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 
 				case "validatorjs-utility/validation-fails":
 					Object.entries(error.errorMessages).forEach(([field, error]) => {
 						request.flash(`${field}InputError`, error)
 					})
+
+					request.flash("idPaInputValue", request.body.idPa)
+					request.flash("tanggalTerbitPaInputValue", request.body.tanggalTerbitPa)
+					request.flash("customerInputValue", request.body.customer)
+					request.flash("lokasiInputValue", request.body.lokasi)
+					request.flash("layananInputValue", request.body.layanan)
+					request.flash("bandwidthInputValue", request.body.bandwidth)
+					request.flash("idMitraInputValue", request.body.idMitra)
+					request.flash("panjangTarikanInputValue", request.body.panjangTarikan)
+					request.flash("jumlahJbInputValue", request.body.jumlahJb)
+
+					return response.redirect(`${process.env.BASE_URL}/submit-pa`)
+
+				case "duplicate-id-pa":
+					request.flash("idPaInputError", "ID PA Duplikat")
 
 					request.flash("idPaInputValue", request.body.idPa)
 					request.flash("tanggalTerbitPaInputValue", request.body.tanggalTerbitPa)
@@ -398,15 +422,11 @@ module.exports = {
 			if (request.session.user.role != "mitra-admin") throw { error: "permission-denied" }
 
 			const { body, files } = await formidable(request, "public/uploaded-files")
-			console.log(files)
 
 			await validatorjs(
 				{
-					customer: body.customer,
 					fotoBriefingK3: files.fotoBriefingK3,
-					panjangTarikan: body.panjangTarikan,
 					progresTarikan: body.progresTarikan,
-					jumlahJb: body.jumlahJb,
 					tracingCore: body.tracingCore,
 					testcom: body.testcom,
 					fileTestcom: files.fileTestcom,
@@ -416,11 +436,8 @@ module.exports = {
 					kendala: body.kendala,
 				},
 				{
-					customer: "string|max:128",
 					fotoBriefingK3: "string",
 					panjangTarikan: "integer",
-					progresTarikan: "integer",
-					jumlahJb: "integer",
 					tracingCore: "integer",
 					testcom: "integer",
 					fileTestcom: "string",
@@ -431,45 +448,59 @@ module.exports = {
 				}
 			)
 
-			await knex("pa").where("id_pa", request.params.idPa).limit(1).update({
-				customer: body.customer,
-				foto_briefing_k3: files.fotoBriefingK3,
-				panjang_tarikan: body.panjangTarikan,
-				progres_tarikan: body.progresTarikan,
-				jumlah_jb: body.jumlahJb,
-				tracing_core: body.tracingCore,
-				testcom: body.testcom,
-				file_testcom: files.fileTestcom,
-				bai_user: body.baiUser,
-				file_bai_bakl: files.fileBaiBakl,
-				tanggal_bai: body.tanggalBai,
-				kendala: body.kendala,
-			})
+			const pa = await knex("pa").where("id_pa", request.params.idPa).limit(1)
+
+			if (body.testcom == 100) {
+				if (lodash.isNil(files.fileTestcom)) {
+					if (pa[0].file_testcom == null) throw { error: "missing-file-testcom" }
+				}
+			}
+
+			if (body.baiUser == 100) {
+				if (lodash.isNil(files.fileBaiBakl)) {
+					if (pa[0].file_bai_bakl == null) throw { error: "missing-file-bai-bakl" }
+				}
+			}
+
+			await knex("pa")
+				.where("id_pa", request.params.idPa)
+				.limit(1)
+				.update({
+					foto_briefing_k3: files.fotoBriefingK3,
+					progres_tarikan: body.progresTarikan,
+					tracing_core: body.tracingCore,
+					testcom: body.testcom,
+					file_testcom: files.fileTestcom,
+					bai_user: body.baiUser,
+					file_bai_bakl: files.fileBaiBakl,
+					tanggal_bai: body.tanggalBai,
+					kendala: body.kendala.length > 0 ? body.kendala : null,
+				})
 
 			return response.redirect(`${process.env.BASE_URL}/update-pa`)
 		} catch (error) {
-			console.log(error)
+			console.log("api-dashboard-controller/updatePa\n", error)
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 
 				case "validatorjs-utility/validation-fails":
 					Object.entries(error.errorMessages).forEach(([field, error]) => {
 						request.flash(`${field}InputError`, error)
 					})
 
-					request.flash("idPaInputValue", request.body.idPa)
-					request.flash("tanggalTerbitPaInputValue", request.body.tanggalTerbitPa)
-					request.flash("customerInputValue", request.body.customer)
-					request.flash("lokasiInputValue", request.body.lokasi)
-					request.flash("layananInputValue", request.body.layanan)
-					request.flash("bandwidthInputValue", request.body.bandwidth)
-					request.flash("idMitraInputValue", request.body.idMitra)
-					request.flash("panjangTarikanInputValue", request.body.panjangTarikan)
-					request.flash("jumlahJbInputValue", request.body.jumlahJb)
+					return response.redirect(`${process.env.BASE_URL}/update-pa/${request.params.idPa}`)
 
-					return response.redirect(`${process.env.BASE_URL}/update-pa`)
+				case "missing-file-testcom":
+					request.flash("fileTestcomInputError", "File Testcom harus di upload jika Testcom sudah 100%")
+
+					return response.redirect(`${process.env.BASE_URL}/update-pa/${request.params.idPa}`)
+
+				case "missing-file-bai-bakl":
+					request.flash("fileBaiBaklInputError", "File Bai Bakl harus di upload jika BAI User sudah 100%")
+
+					return response.redirect(`${process.env.BASE_URL}/update-pa/${request.params.idPa}`)
 			}
 		}
 	},
@@ -490,7 +521,7 @@ module.exports = {
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 			}
 		}
 	},
@@ -511,7 +542,7 @@ module.exports = {
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 			}
 		}
 	},
@@ -532,7 +563,7 @@ module.exports = {
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 			}
 		}
 	},
@@ -573,7 +604,7 @@ module.exports = {
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 
 				case "pa-not-found":
 					request.flash(
@@ -634,7 +665,7 @@ module.exports = {
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 			}
 		}
 	},
@@ -690,7 +721,7 @@ module.exports = {
 
 			switch (error?.error) {
 				case "permission-denied":
-					return response.status(403).send("Permission denied")
+					return response.status(403).render("errors/403")
 
 				case "validatorjs-utility/validation-fails":
 					request.flash(`excelInputError`, "Terdapat kesalahan pada data yang di import")

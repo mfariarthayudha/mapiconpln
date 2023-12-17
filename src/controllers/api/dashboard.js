@@ -473,7 +473,7 @@ module.exports = {
 					file_testcom: files.fileTestcom,
 					bai_user: body.baiUser,
 					file_bai_bakl: files.fileBaiBakl,
-					tanggal_bai: body.tanggalBai,
+					tanggal_bai: !lodash.isNil(body.tanggalBai) ? body.tanggalBai : null,
 					kendala: body.kendala.length > 0 ? body.kendala : null,
 				})
 
@@ -640,10 +640,13 @@ module.exports = {
 
 						return snakeCaseKeysToCamelCase({
 							...pa,
+							foto_briefing_k3: `${process.env.BASE_URL}/uploaded-files/${pa.foto_briefing_k3}`,
 							tanggal_terbit_pa: `${new Date(pa.tanggal_terbit_pa).getFullYear()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.tanggal_terbit_pa).getDate()}`,
 							tracing_core: `${pa.tracing_core}%`,
 							testcom: `${pa.testcom}%`,
+							file_testcom: `${process.env.BASE_URL}/uploaded-files/${pa.file_testcom}`,
 							bai_user: `${pa.bai_user}%`,
+							file_bai_bakl: `${process.env.BASE_URL}/uploaded-files/${pa.file_bai_bakl}`,
 							tanggal_bai: `${new Date(pa.tanggal_bai).getFullYear()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getDate()}`,
 							aging: Math.ceil((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp - tanggalTerbitPaTimestamp) / 86400),
 						})

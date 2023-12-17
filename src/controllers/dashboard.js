@@ -439,8 +439,8 @@ module.exports = {
 
 			const mitra = await knex("mitra as m")
 				.select("m.mitra_name as mitra")
-				.select(knex.raw("SUM(DATEDIFF(IFNULL(pa.tanggal_bai, CURDATE()), pa.tanggal_terbit_pa) + 1) AS sum"))
-				.select(knex.raw("AVG(DATEDIFF(IFNULL(pa.tanggal_bai, CURDATE()), pa.tanggal_terbit_pa) + 1) AS average"))
+				.select(knex.raw("SUM(CASE WHEN pa.bai_user = 100 THEN DATEDIFF(pa.tanggal_bai, pa.tanggal_terbit_pa) ELSE DATEDIFF(CURDATE(), pa.tanggal_terbit_pa) + 1 END) AS sum"))
+				.select(knex.raw("AVG(CASE WHEN pa.bai_user = 100 THEN DATEDIFF(pa.tanggal_bai, pa.tanggal_terbit_pa) ELSE DATEDIFF(CURDATE(), pa.tanggal_terbit_pa) + 1 END) AS average"))
 				.join("pa", "m.mitra_id", "=", "pa.mitra_id")
 				.groupBy("m.mitra_name")
 				.then((mitra) => {

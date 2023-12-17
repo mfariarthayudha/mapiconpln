@@ -473,7 +473,7 @@ module.exports = {
 					file_testcom: files.fileTestcom,
 					bai_user: body.baiUser,
 					file_bai_bakl: files.fileBaiBakl,
-					tanggal_bai: !lodash.isNil(body.tanggalBai) ? body.tanggalBai : null,
+					tanggal_bai: body.tanggalBai.length > 0 ? body.tanggalBai : null,
 					kendala: body.kendala.length > 0 ? body.kendala : null,
 				})
 

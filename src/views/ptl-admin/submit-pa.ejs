@@ -120,6 +120,8 @@
 
 					<!-- Main content -->
 					<section class="content">
+						<%- flashMessages.message?.[0] %>
+
 						<div class="row">
 							<div class="col-12">
 								<div class="box">
@@ -233,7 +235,6 @@
 									</div>
 									<!-- /.box-header -->
 									<div class="box-body">
-										<%- flashMessages.message?.[0] %>
 										<div class="table-responsive">
 											<table id="example1" class="table table-bordered table-striped" style="width: 100%">
 												<thead>
@@ -264,7 +265,9 @@
 														<td><%= pa.mitra %></td>
 														<td><%= pa.panjang_tarikan %></td>
 														<td><%= pa.jumlah_jb %></td>
-														<td><a href="<%= `${baseUrl}/api/dashboard/${pa.id_pa}/delete-pa` %>" class="btn btn-danger">Hapus</a></td>
+														<td>
+															<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#<%= pa.id_pa %>-delete-confirmation-modal">Hapus</button>
+														</td>
 													</tr>
 													<% }) %>
 												</tbody>
@@ -296,6 +299,28 @@
 			</footer>
 		</div>
 		<!-- ./wrapper -->
+
+		<% pa.forEach(pa => { %>
+		<div class="modal center-modal fade" id="<%= pa.id_pa %>-delete-confirmation-modal" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Konfirmasi hapus PA</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Apakah anda yakin ingin menghapus PA dengan id <%= pa.id_pa %>?</p>
+					</div>
+					<div class="modal-footer modal-footer-uniform">
+						<button type="button" class="btn btn-rounded btn-secondary" data-dismiss="modal">Batal</button>
+						<a href="<%= `${baseUrl}/api/dashboard/${pa.id_pa}/delete-pa` %>" class="btn btn-rounded btn-danger float-right">Hapus</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<% }) %>
 
 		<!-- Vendor JS -->
 		<script src="/sunny-admin/js/vendors.min.js"></script>

@@ -477,6 +477,14 @@ module.exports = {
 					kendala: body.kendala.length > 0 ? body.kendala : null,
 				})
 
+			request.flash(
+				"message",
+				`
+						<div class="alert alert-success alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Berhasil update PA </div>
+					`
+			)
+
 			return response.redirect(`${process.env.BASE_URL}/update-pa`)
 		} catch (error) {
 			console.log("api-dashboard-controller/updatePa\n", error)
@@ -717,6 +725,14 @@ module.exports = {
 					if (error?.code == "ER_DUP_ENTRY") throw { error: "duplicate-pa" }
 					throw error
 				})
+
+			request.flash(
+				"message",
+				`
+						<div class="alert alert-success alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Berhasil import PA </div>
+					`
+			)
 
 			return response.redirect(`${process.env.BASE_URL}/submit-pa`)
 		} catch (error) {

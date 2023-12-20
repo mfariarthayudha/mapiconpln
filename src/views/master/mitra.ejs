@@ -173,6 +173,7 @@
 												<thead>
 													<tr>
 														<th>No</th>
+														<th>ID Mitra</th>
 														<th>Mitra</th>
 													</tr>
 												</thead>
@@ -180,6 +181,7 @@
 													<% mitra.forEach((mitra, index) => { %>
 													<tr>
 														<td><%= index + 1 %></td>
+														<td><%= mitra.mitra_id %></td>
 														<td><%= mitra.mitra_name %></td>
 													</tr>
 													<% }) %>

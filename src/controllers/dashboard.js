@@ -405,6 +405,8 @@ module.exports = {
 						})
 					})
 
+				console.log(pa)
+
 				return response.render("monitoring-pa", {
 					baseUrl: process.env.BASE_URL,
 					user: request.session.user,

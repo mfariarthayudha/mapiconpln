@@ -354,6 +354,7 @@ module.exports = {
 								tanggal_terbit_pa: `${new Date(pa.tanggal_terbit_pa).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.tanggal_terbit_pa).getFullYear()}`,
 								tanggal_bai: Math.floor(new Date(pa.tanggal_bai) / 1000) > 0 ? `${new Date(pa.tanggal_bai).getDate()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getFullYear()}` : null,
 								aging: Math.ceil(((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp) - tanggalTerbitPaTimestamp) / 86400),
+								updated_at: pa.update_at == null ? null : `${new Date(pa.update_at).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.update_at).getFullYear()}`,
 							}
 						})
 					})
@@ -401,6 +402,7 @@ module.exports = {
 								tanggal_terbit_pa: `${new Date(pa.tanggal_terbit_pa).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.tanggal_terbit_pa).getFullYear()}`,
 								tanggal_bai: Math.floor(new Date(pa.tanggal_bai) / 1000) > 0 ? `${new Date(pa.tanggal_bai).getDate()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getFullYear()}` : null,
 								aging: Math.ceil(((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp) - tanggalTerbitPaTimestamp) / 86400),
+								updated_at: pa.updated_at == null ? null : `${new Date(pa.updated_at).getDate()}-${new Date(pa.updated_at).getMonth() + 1}-${new Date(pa.updated_at).getFullYear()}`,
 							}
 						})
 					})
@@ -456,6 +458,51 @@ module.exports = {
 				})
 
 			return response.render("ptl-admin/aging", {
+				baseUrl: process.env.BASE_URL,
+				user: request.session.user,
+				mitra: mitra,
+			})
+		} catch (error) {
+			console.log("dashboard-controller/aging\n", error)
+
+			switch (error?.error) {
+				case "permission-denied":
+					return response.status(500).render("errors/403.ejs", {
+						baseUrl: process.env.BASE_URL,
+					})
+
+				default:
+					return response.status(500).render("errors/500.ejs", {
+						baseUrl: process.env.BASE_URL,
+					})
+			}
+		}
+	},
+
+	performance: async (request, response) => {
+		try {
+			if (request.session.user.role != "ptl-admin") throw { error: "permission-denied" }
+
+			const mitra = await knex
+				.select("mitra.mitra_name")
+				.count("* as total_pa")
+				.select(knex.raw("(SUM(CASE WHEN pa.bai_user = 100 THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS percentage"))
+				.from("mitra")
+				.join("pa", "mitra.mitra_id", "pa.mitra_id")
+				.groupBy("mitra.mitra_name")
+				.then((mitra) => {
+					return mitra.map((mitra) => {
+						return {
+							...mitra,
+							total_pa: parseInt(mitra.total_pa),
+							percentage: parseInt(mitra.percentage),
+						}
+					})
+				})
+
+			console.log(mitra)
+
+			return response.render("ptl-admin/performance", {
 				baseUrl: process.env.BASE_URL,
 				user: request.session.user,
 				mitra: mitra,

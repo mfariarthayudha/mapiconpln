@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!-- <link rel="icon" href="../images/favicon.ico"> -->
 
-		<title>Aging - MAP Icon Plus</title>
+		<title>Performance - MAP Icon Plus</title>
 
 		<!-- Vendors Style-->
 		<link rel="stylesheet" href="/sunny-admin/css/vendors_css.css" />
@@ -107,14 +107,14 @@
 							</a>
 						</li>
 
-						<li class="active">
+						<li>
 							<a href="<%= `${baseUrl}/aging` %>">
 								<i data-feather="pie-chart"></i>
 								<span>Aging</span>
 							</a>
 						</li>
 
-						<li>
+						<li class="active">
 							<a href="<%= `${baseUrl}/performance` %>">
 								<i data-feather="check"></i>
 								<span>Performance</span>
@@ -138,7 +138,7 @@
 											<li class="breadcrumb-item">
 												<a href="<%= baseUrl %>"><i class="mdi mdi-home-outline"></i></a>
 											</li>
-											<li class="breadcrumb-item active" aria-current="page">Aging</li>
+											<li class="breadcrumb-item active" aria-current="page">Performance</li>
 										</ol>
 									</nav>
 								</div>
@@ -200,11 +200,11 @@
 			new Chart(ctx, {
 				type: "bar",
 				data: {
-					labels: mitra.map((mitra) => mitra.mitra),
+					labels: mitra.map((mitra) => mitra.mitra_name),
 					datasets: [
 						{
-							label: "Rata rata Aging",
-							data: mitra.map((mitra) => mitra.average),
+							label: "Persentase PA selesai",
+							data: mitra.map((mitra) => mitra.percentage),
 							borderWidth: 1,
 						},
 					],
@@ -225,7 +225,7 @@
 						},
 						title: {
 							display: true,
-							text: "Aging",
+							text: "Performance",
 						},
 					},
 				},

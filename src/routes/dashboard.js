@@ -2,7 +2,7 @@
 
 const express = require("express")
 
-const { dashboard, ptl, ptlAdmin, mitra, mitraAdmin, submitPa, updatePa, formUpdatePa, monitoringPa, aging } = require("../controllers/dashboard")
+const { dashboard, ptl, ptlAdmin, mitra, mitraAdmin, submitPa, updatePa, formUpdatePa, monitoringPa, aging, performance } = require("../controllers/dashboard")
 
 const router = express.Router()
 
@@ -26,5 +26,7 @@ router.get("/update-pa/:idPa", formUpdatePa)
 router.get("/monitoring-pa", monitoringPa)
 
 router.get("/aging", aging)
+
+router.get("/performance", performance)
 
 module.exports = router

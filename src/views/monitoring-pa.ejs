@@ -107,7 +107,15 @@
 								<span>Aging</span>
 							</a>
 						</li>
+
+						<li>
+							<a href="<%= `${baseUrl}/performance` %>">
+								<i data-feather="check"></i>
+								<span>Performance</span>
+							</a>
+						</li>
 						<% } %>
+						
 					</ul>
 				</section>
 			</aside>
@@ -191,6 +199,7 @@
 													<tr>
 														<th>No</th>
 														<th>ID PA</th>
+														<th>Mitra</th>
 														<th>Tanggal Terbit PA</th>
 														<th>Customer</th>
 														<th>Lokasi</th>
@@ -208,6 +217,7 @@
 														<th>Tanggal BAI</th>
 														<th>Kendala</th>
 														<th>Aging</th>
+														<th>Terakhir Diperbarui</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -215,6 +225,7 @@
 													<tr>
 														<td><%= index + 1 %></td>
 														<td><%= pa.id_pa %></td>
+														<td><%= pa.mitra %></td>
 														<td><%= pa.tanggal_terbit_pa %></td>
 														<td><%= pa.customer %></td>
 														<td><%= pa.lokasi %></td>
@@ -245,6 +256,7 @@
 														<td><%= pa.tanggal_bai %></td>
 														<td><%= pa.kendala %></td>
 														<td><%= pa.aging %> Hari</td>
+														<td><%= pa.updated_at %></td>
 													</tr>
 													<% }) %>
 												</tbody>

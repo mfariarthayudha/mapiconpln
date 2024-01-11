@@ -475,6 +475,7 @@ module.exports = {
 					file_bai_bakl: files.fileBaiBakl,
 					tanggal_bai: body.tanggalBai.length > 0 ? body.tanggalBai : null,
 					kendala: body.kendala.length > 0 ? body.kendala : null,
+					updated_at: new Date(),
 				})
 
 			request.flash(

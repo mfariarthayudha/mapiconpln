@@ -221,7 +221,7 @@
 													</tr>
 												</thead>
 												<tbody>
-													<% pa.forEach((pa, index) => { %>
+													<% pa.pa.forEach((pa, index) => { %>
 													<tr>
 														<td><%= index + 1 %></td>
 														<td><%= pa.id_pa %></td>
@@ -260,6 +260,19 @@
 													</tr>
 													<% }) %>
 												</tbody>
+												<tfoot>
+													<tr>
+														<td colspan="9">Total</td>
+														<td><%= pa.totalPanjangTarikan %></td>
+														<td><%= pa.totalProgresTarikan %></td>
+														<td><%= pa.totalJumlahJb %></td>
+														<td><%= pa.totalTracingCore %></td>
+														<td colspan="5"></td>
+														<td>Rata Rata Aging</td>
+														<td><%= pa.averageAging %></td>
+														<td></td>
+													</tr>
+												</tfoot>
 											</table>
 										</div>
 									</div>

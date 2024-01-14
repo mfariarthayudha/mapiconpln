@@ -720,6 +720,8 @@ module.exports = {
 				})
 			}
 
+			console.log(pa)
+
 			await knex("pa")
 				.insert(pa)
 				.catch((error) => {

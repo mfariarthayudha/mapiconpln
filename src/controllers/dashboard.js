@@ -345,9 +345,21 @@ module.exports = {
 					.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
 					.orderBy("tanggal_terbit_pa")
 					.then((pa) => {
-						return pa.map((pa) => {
+						let totalPanjangTarikan = 0
+						let totalProgresTarikan = 0
+						let totalJumlahJb = 0
+						let totalTracingCore = 0
+						let aging = 0
+
+						let mappedPa = pa.map((pa) => {
 							const currentTimestamp = Math.floor(new Date() / 1000)
 							const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
+
+							totalPanjangTarikan += parseInt(pa.panjang_tarikan)
+							totalProgresTarikan += parseInt(pa.progres_tarikan)
+							totalJumlahJb += parseInt(pa.jumlah_jb)
+							totalTracingCore += parseInt(pa.tracing_core)
+							aging += Math.ceil(((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp) - tanggalTerbitPaTimestamp) / 86400)
 
 							return {
 								...pa,
@@ -357,6 +369,15 @@ module.exports = {
 								updated_at: pa.update_at == null ? null : `${new Date(pa.update_at).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.update_at).getFullYear()}`,
 							}
 						})
+
+						return {
+							pa: mappedPa,
+							totalPanjangTarikan: totalPanjangTarikan,
+							totalProgresTarikan: totalProgresTarikan,
+							totalJumlahJb: totalJumlahJb,
+							totalTracingCore: totalTracingCore,
+							averageAging: Math.round(aging / pa.length),
+						}
 					})
 
 				return response.render("monitoring-pa", {
@@ -393,21 +414,40 @@ module.exports = {
 					.join("mitra", "pa.mitra_id", "=", "mitra.mitra_id")
 					.orderBy("tanggal_terbit_pa")
 					.then((pa) => {
-						return pa.map((pa) => {
+						let totalPanjangTarikan = 0
+						let totalProgresTarikan = 0
+						let totalJumlahJb = 0
+						let totalTracingCore = 0
+						let aging = 0
+
+						let mappedPa = pa.map((pa) => {
 							const currentTimestamp = Math.floor(new Date() / 1000)
 							const tanggalTerbitPaTimestamp = Math.floor(new Date(pa.tanggal_terbit_pa) / 1000)
+
+							totalPanjangTarikan += parseInt(pa.panjang_tarikan)
+							totalProgresTarikan += parseInt(pa.progres_tarikan)
+							totalJumlahJb += parseInt(pa.jumlah_jb)
+							totalTracingCore += parseInt(pa.tracing_core)
+							aging += Math.ceil(((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp) - tanggalTerbitPaTimestamp) / 86400)
 
 							return {
 								...pa,
 								tanggal_terbit_pa: `${new Date(pa.tanggal_terbit_pa).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.tanggal_terbit_pa).getFullYear()}`,
 								tanggal_bai: Math.floor(new Date(pa.tanggal_bai) / 1000) > 0 ? `${new Date(pa.tanggal_bai).getDate()}-${new Date(pa.tanggal_bai).getMonth() + 1}-${new Date(pa.tanggal_bai).getFullYear()}` : null,
 								aging: Math.ceil(((pa.bai_user == 100 ? Math.floor(new Date(pa.tanggal_bai) / 1000) : currentTimestamp) - tanggalTerbitPaTimestamp) / 86400),
-								updated_at: pa.updated_at == null ? null : `${new Date(pa.updated_at).getDate()}-${new Date(pa.updated_at).getMonth() + 1}-${new Date(pa.updated_at).getFullYear()}`,
+								updated_at: pa.update_at == null ? null : `${new Date(pa.update_at).getDate()}-${new Date(pa.tanggal_terbit_pa).getMonth() + 1}-${new Date(pa.update_at).getFullYear()}`,
 							}
 						})
-					})
 
-				console.log(pa)
+						return {
+							pa: mappedPa,
+							totalPanjangTarikan: totalPanjangTarikan,
+							totalProgresTarikan: totalProgresTarikan,
+							totalJumlahJb: totalJumlahJb,
+							totalTracingCore: totalTracingCore,
+							averageAging: Math.round(aging / pa.length),
+						}
+					})
 
 				return response.render("monitoring-pa", {
 					baseUrl: process.env.BASE_URL,

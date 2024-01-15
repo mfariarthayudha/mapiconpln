@@ -154,7 +154,7 @@
               <div class="form-group row">
                 <label class="col-form-label col-lg-3">Tanggal Terbit PA</label>
                 <div class="col-lg-9">
-                  <input type="date" class="form-control" <% if (pa.tanggal_terbit_pa != null) { %> value="<%= `${pa.tanggal_terbit_pa.split('-')[2]}-${pa.tanggal_terbit_pa.split('-')[1]}-${pa.tanggal_terbit_pa.split('-')[0]}` %>" <% } %> disabled />
+                  <input type="date" class="form-control" <% if (pa.tanggal_terbit_pa != null) { %> value="<%= `${pa.tanggal_terbit_pa.split('-')[2]}-${parseInt(pa.tanggal_terbit_pa.split('-')[1]) < 10 ? "0" : ""}${pa.tanggal_terbit_pa.split('-')[1]}-${parseInt(pa.tanggal_terbit_pa.split('-')[0]) < 10 ? "0" : ""}${pa.tanggal_terbit_pa.split('-')[0]}` %>" <% } %> disabled />
 
                 </div>
               </div>
@@ -298,7 +298,7 @@
               <div class="form-group row">
                 <label class="col-form-label col-lg-3">Tanggal BAI</label>
                 <div class="col-lg-9">
-                  <input type="date" name="tanggalBai" class="form-control" <% if (pa.tanggal_bai != null) { %> value="<%= `${pa.tanggal_terbit_pa.split('-')[2]}-${pa.tanggal_bai.split('-')[1]}-${pa.tanggal_bai.split('-')[0]}` %>" <% } %> />
+                  <input type="date" name="tanggalBai" class="form-control" <% if (pa.tanggal_bai != null) { %> value="<%= `${pa.tanggal_terbit_pa.split('-')[2]}-${parseInt(pa.tanggal_bai.split('-')[1]) < 10 ? "0" : ""}${pa.tanggal_bai.split('-')[1]}-${parseInt(pa.tanggal_bai.split('-')[0]) < 10 ? "0" : ""}${pa.tanggal_bai.split('-')[0]}` %>" <% } %> />
 
                 </div>
               </div>

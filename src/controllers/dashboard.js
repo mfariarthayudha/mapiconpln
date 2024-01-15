@@ -294,6 +294,7 @@ module.exports = {
 					})
 				})
 
+			console.log(pa)
 			return response.render("mitra-admin/form-update-pa", {
 				baseUrl: process.env.BASE_URL,
 				flashMessages: request.flash(),

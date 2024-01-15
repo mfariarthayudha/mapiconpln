@@ -211,7 +211,7 @@
               <div class="form-group row">
                 <label class="col-form-label col-lg-3">Foto Briefing K3</label>
                 <div class="col-lg-9">
-                  <% if (pa.foto_briefing_k3 == null) { %>
+                  <% if (!pa.foto_briefing_k3) { %>
                   <div class="custom-file">
                     <input type="file" name="fotoBriefingK3" class="custom-file-input">
                     <label class="custom-file-label" for="customFile">Upload Foto</label>
@@ -255,7 +255,7 @@
               <div class="form-group row">              
                 <label class="col-form-label col-lg-3">Upload Tescom</label>
                 <div class="col-lg-9">
-                  <% if (pa.file_testcom == null) { %>
+                  <% if (!pa.file_testcom) { %>
                   <div class="custom-file">
                     <input type="file" name="fileTestcom" class="custom-file-input">
                     <label class="custom-file-label" for="customFile">Upload Testcom</label>
@@ -282,7 +282,7 @@
               <div class="form-group row">
                 <label class="col-form-label col-lg-3">Upload BAI BAKL</label>
                 <div class="col-lg-9">
-                  <% if (pa.file_bai_bakl == null) { %>
+                  <% if (!pa.file_bai_bakl) { %>
                   <div class="custom-file">
                     <input type="file" name="fileBaiBakl" class="custom-file-input">
                     <label class="custom-file-label" for="customFile">Upload BAI</label>
